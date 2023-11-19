@@ -1,0 +1,34 @@
+#!/bin/bash
+
+function config_ip() {
+    netmask=$1
+    my_ip=$2
+    i_name=$3
+
+    echo "Atribuindo endereço IP $my_ip com máscara $netmask para a interface $i_name"
+    sudo ifconfig $i_name $my_ip netmask $netmask || return 1
+}
+
+netmask="255.255.255.0"
+ip_usb="192.168.1.1"
+usb_interface="enx00e04c534458"
+usb_broadcast="192.168.3.255"
+
+ip_et="192.168.3.3"
+eth_interface="enp1s0"
+eth_broadcast="192.168.1.255"
+
+config_ip $netmask $ip_usb $usb_interface
+echo "Configurando o roteador na interface USB: $ip_usb"
+
+echo "Configurando o roteador na interface Ethernet: $ip_et"
+config_ip $netmask $ip_et $eth_interface
+
+# Habilitar IP Forwarding
+echo "Habilitando IP forwarding"
+sudo sysctl -w net.ipv4.ip_forward=1
+
+# Adicionar rotas entre as redes
+echo "Adicionando rotas entre as redes"
+sudo route add -net 192.168.3.0 netmask 255.255.255.0 $usb_interface
+sudo route add -net 192.168.1.0 netmask 255.255.255.0 $eth_interface
