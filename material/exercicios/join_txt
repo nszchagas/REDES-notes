@@ -1,0 +1,1 @@
+echo "" > lista.md && { for f in *.txt; do echo -e "## ${f/\.txt/}\n $(cat $f) \n" >> lista1.md; done }s

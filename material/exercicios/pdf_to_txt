@@ -1,0 +1,10 @@
+#!/bin/bash
+
+files=$@
+dest="$(pwd)/txt_from_pdf/"
+mkdir -p $dest
+for f in $files; do
+	echo $f
+	python pdf_to_txt.py $f $dest
+done
+ 
