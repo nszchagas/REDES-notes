@@ -1,24 +1,19 @@
 #!/bin/bash
 
-server=nginx
-
 # Curl flags: --include: Inclui o header da resposta na saída.
+cmd="curl --include --http1.1 -X GET http://nginx"
+echo "Testando HTTP/1.1 com o comando curl ($cmd):"
+resultado="$($cmd)"
+echo -e "Resultado:\n$resultado\n"
 
-echo "Testando HTTP/1.1 com o comando curl"
-cmd="curl --http1.1 --include -X GET http://$server"
-echo "$cmd"
-$cmd
 
 # A flag --insecure é passada para que o curl não verifique os certificados ssl (o usado é self-signed).
-echo "Testando HTTP/2 com o comando curl"
-cmd="curl --include --http2 -X GET --insecure https://$server"
-echo "$cmd"
-$cmd
+cmd="curl --include --http2 -X GET --insecure https://nginx"
+echo "Testando HTTP/2 com o comando curl ($cmd):"
+resultado="$($cmd)"
+echo -e "Resultado:\n$resultado\n"
 
-echo "Testando HTTP/3 com o comando curl"
-cmd="curl --include --http3 -X GET --insecure https://$server"
-echo "$cmd"
-$cmd
-
-#Segura o container rodando durante os testes
-tail -f /dev/null
+cmd="curl --include --http3 -X GET --insecure https://nginx"
+echo "Testando HTTP/3 com o comando curl ($cmd):"
+resultado="$($cmd)"
+echo -e "Resultado:\n$resultado\n"

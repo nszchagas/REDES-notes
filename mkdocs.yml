@@ -29,7 +29,6 @@ markdown_extensions:
   - pymdownx.snippets:
       base_path: ["docs"]
   - pymdownx.superfences
-  - attr_list
 
 extra_javascript:
   - assets/mathjax.js

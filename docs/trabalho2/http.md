@@ -1,5 +1,12 @@
 # Protocolo HTTP
 
+| Identificação | -                                |
+| ----------- | ------------------------------------ |
+| Aluno       | Nicolas Chagas Souza                 |
+| Matrícula   | 200042327                            |
+| Disciplina  | Fundamentos de Redes de Computadores |
+| Turma       | 01                                   |
+
 ## Referencial Teórico
 
 O protocolo HTTP encontra-se na camada de aplicação dos modelos TCP/IP e OSI.
@@ -112,29 +119,6 @@ Ao contrário das versões anteriores, que eram documentos do IETF (_Internet En
 
 O principal diferencial entre HTTP 2.0 e HTTP 3.0 reside no protocolo de transporte utilizado, o HTTP 2.0 emprega conexões TCP, com ou sem TLS (para HTTPS e HTTP) enquanto o HTTP 3.0, por sua vez, é projetado sobre o protocolo QUIC (Quick UDP Internet Connections) -  um protocolo de camada de transporte com multiplexação nativa e criptografia integrada, ele oferece um processo de handshake rápido e é capaz de mitigar problemas de latência em conexões com perda de pacotes e baixa velocidade. A utilização do QUIC traz benefícios potenciais, como uma rápida negociação de conexão e eficiência na mitigação de latência em conexões problemáticas.
 
-#### Comparativo de versões
-
-A seguinte tabela destaca algumas das principais diferenças entre as versões HTTP/1.1, HTTP/2.0 e HTTP/3.0 em relação a diversos aspectos, desde o ano de lançamento até características específicas de cada protocolo.
-
-| **Característica**                | **HTTP/1.1**                                          | **HTTP/2.0**                                          | **HTTP/3.0**                                       |
-|------------------------------------|-------------------------------------------------------|--------------------------------------------------------|----------------------------------------------------|
-| **Ano de Lançamento**               | 1997                                                  | 2015                                                   | 2020                                               |
-| **Tipo de Documento**               | RFC (Request For Comments)                            | RFC                                                    | Internet-Draft                                    |
-| **Protocolo de Transporte**         | TCP (com ou sem TLS para HTTPS)                        | TCP (com ou sem TLS para HTTPS)                        | QUIC                                               |
-| **Multiplexação de Requisições**    | Não suporta; sequencial                                | Sim; assíncrono                                       | Sim; assíncrono                                   |
-| **Priorização de Requisições**      | Não suporta                                           | Sim                                                    | Sim                                               |
-| **Compressão Automática**           | Não                                                   | Sim                                                    | Sim                                               |
-| **Conexões Persistentes**           | Possíveis, mas com limitações                         | Sim                                                    | Sim                                               |
-| **Segurança da Conexão**            | Requer explicitamente (HTTP) ou por padrão (HTTPS)    | Requer explicitamente (HTTP) ou por padrão (HTTPS)    | Sempre criptografada                              |
-| **Protocolo Binário**               | Não                                                   | Sim                                                    | Sim                                               |
-| **Multiplexação de Streams**        | Não aplicável                                         | Sim                                                    | Sim                                               |
-| **Criação de Conexões**            | Sem funcionalidade específica                         | Requer handshake                                      | Rápida negociação de conexão (QUIC)               |
-| **Server Push**                    | Não suporta                                           | Sim                                                    | Sim (através do QUIC)                            |
-| **Projeto de Tim Berners-Lee**      | Não previu inicialmente como um meio somente leitura   | Estendido para permitir autoria (WebDAV)             | Projeto inicial incluía autoria (WebDAV)          |
-| **Principais Objetivos Iniciais**   | Transferência de documentos hipertexto               | Melhorias de desempenho e otimização                  | Aprimoramentos de desempenho e segurança (QUIC)   |
-
-<tab> Comparativo entre versões do HTTP. </tab>
-
 ## Prática
 
 O experimento será realizado com dois containers docker, sendo uma imagem de nginx usada para o lado servidor e uma de linux (debian) para o lado cliente.
@@ -162,6 +146,106 @@ trabalho2/files/nginx.Dockerfile
 trabalho2/files/nginx.conf
 --8<--
 ```
+
+#### Configurações do cliente (debian)
+
+```Dockerfile title="debian.Dockerfile" linenums="1"
+--8<--
+trabalho2/files/debian.Dockerfile
+--8<--
+```
+
+O seguinte script será executado no início do container, para realizar as conexões ao servidor utilizando as versões especificadas do protocolo HTTP.
+
+```shell title="get_http" linenums="1"
+--8<--
+trabalho2/files/get_http
+--8<--
+```
+
+### Execução
+
+Para executar o experimento, basta executar o comando a seguir na pasta onde encontram-se os arquivos de configuração:
+
+```shell
+# A flag -d indica que os containers rodaram em modo detached do terminal.
+docker compose up -d 
+```
+
+Para verificar os resultados do experimento, verifique os logs do container do cliente, rodando o comando:
+
+```shell
+docker logs debian 
+```
+
+### Resultados
+
+#### HTTP/1.1
+
+```text
+Testando HTTP/1.1 com o comando curl (curl --include --http1.1 -X GET http://nginx):
+Resultado:
+HTTP/1.1 200 OK
+Server: nginx/1.25.3
+Date: Mon, 20 Nov 2023 15:50:37 GMT
+Content-Type: text/plain
+Content-Length: 56
+Connection: keep-alive
+
+Hello World! Esse conteúdo foi requisitado via HTTP/1.1
+```
+
+#### HTTP/2
+
+```text
+Testando HTTP/2 com o comando curl (curl --include --http2 -X GET --insecure https://nginx):
+Resultado:
+HTTP/2 200 
+server: nginx/1.25.3
+date: Mon, 20 Nov 2023 15:50:37 GMT
+content-type: text/plain
+content-length: 54
+
+Hello World! Esse conteúdo foi requisitado via HTTP/2
+```
+
+#### HTTP/3
+
+```text
+Testando HTTP/3 com o comando curl (curl --include --http3 -X GET --insecure <https://nginx>):
+Resultado:
+
+curl: option --http3: the installed libcurl version doesn't support this
+curl: try 'curl --help' for more information
+
+```
+
+Houve um erro, pois a versão utilizada do curl não tem suporte à http3.
+
+## Considerações Finais
+
+A seguinte tabela destaca algumas das principais diferenças entre as versões HTTP/1.1, HTTP/2.0 e HTTP/3.0 em relação a diversos aspectos, desde o ano de lançamento até características específicas de cada protocolo.
+
+| **Característica**                | **HTTP/1.1**                                          | **HTTP/2.0**                                          | **HTTP/3.0**                                       |
+|------------------------------------|-------------------------------------------------------|--------------------------------------------------------|----------------------------------------------------|
+| **Ano de Lançamento**               | 1997                                                  | 2015                                                   | 2020                                               |
+| **Tipo de Documento**               | RFC (Request For Comments)                            | RFC                                                    | Internet-Draft                                    |
+| **Protocolo de Transporte**         | TCP (com ou sem TLS para HTTPS)                        | TCP (com ou sem TLS para HTTPS)                        | QUIC                                               |
+| **Multiplexação de Requisições**    | Não suporta; sequencial                                | Sim; assíncrono                                       | Sim; assíncrono                                   |
+| **Priorização de Requisições**      | Não suporta                                           | Sim                                                    | Sim                                               |
+| **Compressão Automática**           | Não                                                   | Sim                                                    | Sim                                               |
+| **Conexões Persistentes**           | Possíveis, mas com limitações                         | Sim                                                    | Sim                                               |
+| **Segurança da Conexão**            | Requer explicitamente (HTTP) ou por padrão (HTTPS)    | Requer explicitamente (HTTP) ou por padrão (HTTPS)    | Sempre criptografada                              |
+| **Protocolo Binário**               | Não                                                   | Sim                                                    | Sim                                               |
+| **Multiplexação de Streams**        | Não aplicável                                         | Sim                                                    | Sim                                               |
+| **Criação de Conexões**            | Sem funcionalidade específica                         | Requer handshake                                      | Rápida negociação de conexão (QUIC)               |
+| **Server Push**                    | Não suporta                                           | Sim                                                    | Sim (através do QUIC)                            |
+| **Projeto de Tim Berners-Lee**      | Não previu inicialmente como um meio somente leitura   | Estendido para permitir autoria (WebDAV)             | Projeto inicial incluía autoria (WebDAV)          |
+| **Principais Objetivos Iniciais**   | Transferência de documentos hipertexto               | Melhorias de desempenho e otimização                  | Aprimoramentos de desempenho e segurança (QUIC)   |
+
+<tab> Comparativo entre versões do HTTP. </tab>
+
+A execução do laboratório mostrou as possibilidades de utilizar diferentes versões do protocolo HTTP entre cliente e servidor, mas não foi possível testar a versão HTTP/3.
 
 ## Referências
 
