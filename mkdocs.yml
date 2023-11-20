@@ -5,36 +5,36 @@ repo_url: https://github.com/nszchagas/REDES-notes
 
 theme:
   name: material
-  logo: assets/icon.png
+  favicon: assets/favicon.ico
+  icon:
+    logo: material/book-outline
+    repo: fontawesome/brands/github
   features:
-    - content.code.annotate
-    - content.code.copy
-    - toc.integrate
-  favicon: assets/icon.png
+    - toc.follow
+    - navigation.expand
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: \033[0;34mindigo\033[0m
-      toggle:
-        icon: material/brightness-7
-        name: Dark mode
-
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: \033[0;34mindigo\033[0m
-      toggle:
-        icon: material/brightness-4
-        name: Light mode
+    - scheme: default
+      primary: blue grey
 
 extra_css:
-  - stylesheets/extra.css
+  - assets/extra.css
+
+plugins:
+  - search
 
 markdown_extensions:
-  - pymdownx.inlinehilite
-  - pymdownx.snippets:
-      base_path: ["codes"]
-  - pymdownx.superfences
   - attr_list
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_javascript:
+  - assets/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 nav:
   - Início: index.md
+  - HTTP: http.md
