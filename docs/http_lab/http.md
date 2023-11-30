@@ -129,7 +129,7 @@ O experimento será realizado com dois containers docker, sendo uma imagem de ng
 
 ```yaml title="docker-compose.yml" linenums="1"
 --8<--
-trabalho2/files/docker-compose.yml
+http_lab/files/docker-compose.yml
 --8<--
 ```
 
@@ -137,13 +137,13 @@ trabalho2/files/docker-compose.yml
 
 ```Dockerfile title="nginx.Dockerfile" linenums="1"
 --8<--
-trabalho2/files/nginx.Dockerfile
+http_lab/files/nginx.Dockerfile
 --8<--
 ```
 
 ```text title="nginx.conf" linenums="1"
 --8<--
-trabalho2/files/nginx.conf
+http_lab/files/nginx.conf
 --8<--
 ```
 
@@ -151,7 +151,7 @@ trabalho2/files/nginx.conf
 
 ```Dockerfile title="debian.Dockerfile" linenums="1"
 --8<--
-trabalho2/files/debian.Dockerfile
+http_lab/files/debian.Dockerfile
 --8<--
 ```
 
@@ -159,7 +159,7 @@ O seguinte script será executado no início do container, para realizar as cone
 
 ```shell title="get_http" linenums="1"
 --8<--
-trabalho2/files/get_http
+http_lab/files/get_http
 --8<--
 ```
 
