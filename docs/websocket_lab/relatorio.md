@@ -1,6 +1,6 @@
 # O Procolo WebSocket
 
-| Identificação |                                      |   
+| Identificação |                                      |
 |---------------|--------------------------------------|
 | Aluno         | Nicolas Chagas Souza                 |
 | Matrícula     | 200042327                            |
@@ -221,15 +221,9 @@ diferença de desempenho, sendo assim o protocolo HTTP mais adequado.
 
 ## Referências
 
-[1] MOL, Marcos. **Getting Started with Unix Domain Sockets**. Medium, [S.l.], [s.d.]. Disponível
-em: <https://medium.com/swlh/getting-started-with-unix-domain-sockets-4472c0db4eb1>. Acesso em: 02 dez. 2023. <br/>
-[2] IETF. **RFC 6455 - The WebSocket Protocol**. [S.l.], [s.d.]. Disponível
-em: <https://datatracker.ietf.org/doc/html/rfc6455>. Acesso em: 02 dez. 2023. <br/>
-[3] WALLARM. **WebSocket vs HTTP: How Are These 2 Different?**. [S.l.], [s.d.]. Disponível
-em: <https://www.wallarm.com/what/websocket-vs-http-how-are-these-2-different>. Acesso em: 02 dez. 2023. <br/>
-[4] TANENBAUM, Andrew S.; WETHERALL, David J. **Redes de Computadores**. 5. ed. [Local de Publicação]: Editora,
-Ano. <br/>
-[5] MOZILLA. **WebSockets API**. [S.l.], [s.d.]. Disponível
-em: <https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API>. Acesso em: 02 dez. 2023. <br/>
-[6] WHATWG. **The WebSocket Interface**. [S.l.], [s.d.]. Disponível
-em: <https://websockets.spec.whatwg.org/#the-websocket-interface>. Acesso em: 02 dez. 2023. <br/>
+[1] MOL, Marcos. Getting Started with Unix Domain Sockets. Medium, [S.l.], [s.d.]. Disponível em: <https://medium.com/swlh/getting-started-with-unix-domain-sockets-4472c0db4eb1>. Acesso em: 02 dez. 2023. 
+[2] IETF. RFC 6455 - The WebSocket Protocol. [S.l.], [s.d.]. Disponível em: <https://datatracker.ietf.org/doc/html/rfc6455>. Acesso em: 02 dez. 2023. 
+[3] WALLARM. WebSocket vs HTTP: How Are These 2 Different?. [S.l.], [s.d.]. Disponível em: <https://www.wallarm.com/what/websocket-vs-http-how-are-these-2-different>. Acesso em: 02 dez. 2023. 
+[4] TANENBAUM, Andrew S.; WETHERALL, David J. Redes de Computadores. 5. ed. [Local de Publicação]: Editora, Ano. 
+[5] MOZILLA. WebSockets API. [S.l.], [s.d.]. Disponível em: <https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API>. Acesso em: 02 dez. 2023. 
+[6] WHATWG. The WebSocket Interface. [S.l.], [s.d.]. Disponível em: <https://websockets.spec.whatwg.org/#the-websocket-interface>. Acesso em: 02 dez. 2023. 
