@@ -1,6 +1,6 @@
 # O Procolo WebSocket
 
-| Identificação | -                                    |
+| Identificação |                                      |   
 |---------------|--------------------------------------|
 | Aluno         | Nicolas Chagas Souza                 |
 | Matrícula     | 200042327                            |
@@ -11,11 +11,14 @@
 
 ### Socket
 
+Um socket fornece um meio de comunicação entre dois processos (Figura 1), ou seja, uma maneira para que eles possam
+trocar dados entre si ([1]).
+
 ![](./assets/socket-drawing.png)
+
 <fig>Exemplificação de socket entre duas partes comunicantes. (Fonte: Medium [1])</fig>
 
-Um socket fornece um meio de comunicação entre dois processos (Figura 1), ou seja, uma maneira para que eles possam
-trocar dados entre si ([1]). Geralmente, a comunicação entre dois processos (`process A` e `process B`), conforme
+Geralmente, a comunicação entre dois processos (`process A` e `process B`), conforme
 ilustra a Figura 2, é feita pelo uso dos seus sockets (X e Y, respectivamente).
 
 ![](./assets/2633.png)
@@ -31,13 +34,13 @@ Existem dois tipos principais de sockets (Figura 3):
 
 ### WebSocket
 
-O protocolo WebSocket permite uma comunicação bidirecional e _full-duplex_ entre um cliente e um servidor. De acordo com
-a especificação (RFC 6455 [2]), o protocolo torna possível a execução de código não confiável, do cliente, em um
-ambiente controlado em um servidor, e tem como objetivo fornecer um mecanismo para aplicações baseadas em navegadores se
+O protocolo WebSocket permite uma comunicação bidirecional e _full-duplex_ entre um cliente e um servidor. Conforme
+a especificação (RFC 6455 [2]), o protocolo permite a execução de código não confiável, do cliente, em um
+ambiente controlado em um servidor, e visa fornecer um mecanismo para aplicações baseadas em navegadores se
 comunicarem com servidores sem a necessidade de abrir múltiplas conexões HTTP (como o uso de `XMLHttpRequest`
 ou `<iframes>`).
 
-O WebSocket foi construído sobre o protocolo TCP, e torna possível a comunicação em tempo real, sendo composto
+O WebSocket foi construído sobre o protocolo TCP, e permite a comunicação em tempo real, composto
 (Figura 4) por um _handshake_ de abertura, seguido por trocas de mensagens bidirecionais em uma conexão persistente até
 que um dos lados finalize a conexão.
 
@@ -50,7 +53,7 @@ Os WebSockets são ideais para estabelecer a comunicação entre APIs em context
 dados, como aplicações de tempo real, jogos e aplicações de chats.
 
 Entretanto, esse protocolo não deve ser usado quando não há necessidade de troca de dados em tempo real ou de se manter
-a a conexão aberta por um longo tempo, sendo o protocolo HTTP mais adequado nesses casos (Figura 5).
+a conexão aberta por um longo tempo, sendo o protocolo HTTP mais adequado nesses casos (Figura 5).
 
 ![](./assets/1442.png)
 <fig>Comparativo entre os protocolos HTTP e WebSocket.(Fonte: Wallarm [3])</fig>
@@ -77,7 +80,8 @@ websocket_lab/files/Pipfile
 
 #### Rodando o Serviço
 
-A configuração do ambiente é feita automaticamente pelo script `start`, desde que o `pipenv` esteja instalado na máquina. Para
+A configuração do ambiente é feita automaticamente pelo script `start`, desde que o `pipenv` esteja instalado na
+máquina. Para
 rodá-lo basta executar o comando `chmod+x start && ./start` ou `/bin/bash start`, na pasta files.
 
 ```shell title="start" linenums="1"
@@ -198,24 +202,34 @@ websocket_lab/files/results.md
 
 ## Considerações Finais
 
-A partir dos resultados obtidos (Tabela 1), foram realizados os cálculos de diferença de desempenho de acordo com a quantidade de requisições e os resultados obtidos (Tabela 2).
+A partir dos resultados obtidos (Tabela 1), foram realizados os cálculos de diferença de desempenho conforme a
+quantidade de requisições e os resultados obtidos (Tabela 2).
 
 --8<--
 websocket_lab/tabela.html
 --8<--
 
-Os resultados da tabela 2 foram representados graficamente (Figura 6), evidenciando a disparidade no desempenho dos protocolos para um grande número de requisições sequenciais.
+Os resultados da tabela 2 foram representados graficamente (Figura 6), evidenciando a disparidade no desempenho dos
+protocolos para muitas requisições sequenciais.
 
 ![](./assets/3228.png)
 <fig>Gráfico comparativo entre a duração das requisições. (Fonte: autoria própria)</fig>
 
-Os resultados obtidos reforçam a eficiência do protocolo websockets no contexto de comunicação em tempo real. O padrão linear de crescimento da diferença de performance também indica que quanto menor o número de requisições, menor a diferença de performance, sendo assim o protocolo HTTP mais adequado.
+Os resultados obtidos reforçam a eficiência do protocolo websockets no contexto de comunicação em tempo real. O padrão
+linear de crescimento da diferença de desempenho também indica que quanto menor o número de requisições, menor a
+diferença de desempenho, sendo assim o protocolo HTTP mais adequado.
 
 ## Referências
 
-[1] MOL, Marcos. **Getting Started with Unix Domain Sockets**. Medium, [S.l.], [s.d.]. Disponível em: <https://medium.com/swlh/getting-started-with-unix-domain-sockets-4472c0db4eb1>. Acesso em: 02 dez. 2023. <br/>
-[2] IETF. **RFC 6455 - The WebSocket Protocol**. [S.l.], [s.d.]. Disponível em: <https://datatracker.ietf.org/doc/html/rfc6455>. Acesso em: 02 dez. 2023. <br/>
-[3] WALLARM. **WebSocket vs HTTP: How Are These 2 Different?**. [S.l.], [s.d.]. Disponível em: <https://www.wallarm.com/what/websocket-vs-http-how-are-these-2-different>. Acesso em: 02 dez. 2023. <br/>
-[4] TANENBAUM, Andrew S.; WETHERALL, David J. **Redes de Computadores**. 5. ed. [Local de Publicação]: Editora, Ano. <br/>
-[5] MOZILLA. **WebSockets API**. [S.l.], [s.d.]. Disponível em: <https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API>. Acesso em: 02 dez. 2023. <br/>
-[6] WHATWG. **The WebSocket Interface**. [S.l.], [s.d.]. Disponível em: <https://websockets.spec.whatwg.org/#the-websocket-interface>. Acesso em: 02 dez. 2023. <br/>
+[1] MOL, Marcos. **Getting Started with Unix Domain Sockets**. Medium, [S.l.], [s.d.]. Disponível
+em: <https://medium.com/swlh/getting-started-with-unix-domain-sockets-4472c0db4eb1>. Acesso em: 02 dez. 2023. <br/>
+[2] IETF. **RFC 6455 - The WebSocket Protocol**. [S.l.], [s.d.]. Disponível
+em: <https://datatracker.ietf.org/doc/html/rfc6455>. Acesso em: 02 dez. 2023. <br/>
+[3] WALLARM. **WebSocket vs HTTP: How Are These 2 Different?**. [S.l.], [s.d.]. Disponível
+em: <https://www.wallarm.com/what/websocket-vs-http-how-are-these-2-different>. Acesso em: 02 dez. 2023. <br/>
+[4] TANENBAUM, Andrew S.; WETHERALL, David J. **Redes de Computadores**. 5. ed. [Local de Publicação]: Editora,
+Ano. <br/>
+[5] MOZILLA. **WebSockets API**. [S.l.], [s.d.]. Disponível
+em: <https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API>. Acesso em: 02 dez. 2023. <br/>
+[6] WHATWG. **The WebSocket Interface**. [S.l.], [s.d.]. Disponível
+em: <https://websockets.spec.whatwg.org/#the-websocket-interface>. Acesso em: 02 dez. 2023. <br/>
