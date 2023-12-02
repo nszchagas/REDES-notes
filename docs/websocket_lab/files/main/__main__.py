@@ -6,9 +6,8 @@ from typing import Callable
 
 from utils import logger, get_env
 from http_module import http_connect, serve_http
+from ws_module import serve_ws, ws_connect
 
-
-# from ws_module import ws_connect, serve_ws
 
 def get_input(prompt: str) -> str:
     global arg, args
@@ -74,11 +73,11 @@ if __name__ == '__main__':
             'server': Process(target=serve_http, kwargs=d, name='HTTP Server'),
             'client': http_connect
         },
-        # {
-        # 'desc': 'Play ping pong with WS.',
-        # 'server': serve_ws,
-        # 'client': ws_connect
-        # },
+        {
+            'desc': 'Play ping pong with WS.',
+            'server': Process(target=serve_ws, kwargs=d, name='WS Server'),
+            'client': ws_connect
+        },
     ]
     try:
         op = get_option()
