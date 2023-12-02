@@ -170,7 +170,7 @@ websocket_lab/files/main/clients/__init__.py
 --8<--
 ```
 
-### Módulo de Utilitários
+#### Módulo de Utilitários
 
 ```python title="utils/__init__.py" linenums="1"
 --8<--

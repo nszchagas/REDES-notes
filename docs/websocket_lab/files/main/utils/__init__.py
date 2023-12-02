@@ -3,9 +3,10 @@ import socket
 from os import environ
 
 # Setup logger
-logging.basicConfig(format="[%(levelname)s %(asctime)s] (%(name)s): %(message)s",
-                    level=logging.INFO,
-                    datefmt="%H:%M:%S")
+logging.basicConfig(
+    format="[%(levelname)s %(asctime)s] (%(name)s): %(message)s",
+    level=logging.INFO,
+    datefmt="%H:%M:%S")
 
 logger = logging.getLogger('main')
 http_logger = logging.getLogger('HTTP')
@@ -19,7 +20,7 @@ def get_reply(data: str):
     return f'Data {data} received successfully.'
 
 
-def format_header_as_str(headers) -> str:
+def str_from_header(headers) -> str:
     h = dict(headers)
     return '; '.join([f'{k}: {h.get(k)}' for k in h.keys()])
 
@@ -49,21 +50,23 @@ def format_results(results: list[dict]):
         return
 
     table = []
-    max_widths = [max(len(str(k)), len(str(v))) for k, v in results[0].items()]
+    max_widths = [max(len(str(k)), len(str(v)))
+                  for k, v in results[0].items()]
     headers = [key.replace("_", " ")
                .capitalize()
                .ljust(max_widths[i])
                for i, key in enumerate(results[0].keys())]
     header = '|' + ' | '.join(headers) + '|'
-    separators = '|' + ' | '.join(['-' * x for x in max_widths]) + '|'
+    separators = '|' + \
+                 ' | '.join(['-' * x for x in max_widths]) + '|'
 
     print(header)
     print(separators)
     table += [header, separators]
     for r in results:
         row = '|' + \
-            ' | '.join(str(value).ljust(max_widths[i])
-                       for i, value in enumerate(r.values())) + '|'
+              ' | '.join(str(value).ljust(max_widths[i])
+                         for i, value in enumerate(r.values())) + '|'
         print(row)
         table.append(row)
 

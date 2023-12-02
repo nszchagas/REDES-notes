@@ -3,7 +3,8 @@ import requests
 from utils import client_logger as logger
 
 
-def http_connect(host, http_port: int, qt_pings: int, **kwargs):
+def http_connect(host, http_port: int,
+                 qt_pings: int, **kwargs):
     logger.info("Playing ping pong with HTTP.")
     url = f'http://{host}:{http_port}'
     sent = 0
