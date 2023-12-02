@@ -8,14 +8,16 @@ from utils import ws_logger as logger, get_reply, format_header_as_str
 # Função assíncrona para receber e responder às requisições via WebSocket.
 async def ws_handler(websocket: WebSocketServerProtocol, path: str):
     # Mantém a conexão ativa.
-    logger.info(f'Client connected. Request headers: {format_header_as_str(websocket.request_headers)}')
+    logger.info(
+        f'Client connected. Request headers: {format_header_as_str(websocket.request_headers)}')
     while True:
         try:
             data = await websocket.recv()
             logger.info(f"Received data: {data}")
             await websocket.send(get_reply(data))
-        except websockets.ConnectionClosedError as e:
-            logger.debug(f'Connection terminated. [{e}]')
+
+        except Exception as e:
+            logger.info(f'Connection terminated. [{e}]')
             break
 
 

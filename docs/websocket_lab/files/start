@@ -1,23 +1,5 @@
 #!/bin/bash
 
-# Verifica se há atividade nas portas que serão utilizadas.
-function is_running() {
-  sudo netstat -putan | grep -e "$ws_port" -e "$http_port"
-}
-
-function verify_ports() {
-  # Verifica se há atividade nas portas, se houver avisa o usuário.
-  if [[ -n "$(is_running)" ]]; then
-    printf "Server is running. Waiting."
-  fi
-
-  # Enquanto há atividade nas portas, espera a finalização.
-  while [[ -n "$(is_running)" ]]; do
-    sleep 1
-    printf "."
-  done
-}
-
 # Instala dependências para execução correta do script.
 # É necessário ter o pipenv na máquina.
 function setup_venv() {
@@ -30,9 +12,9 @@ function setup_venv() {
 }
 
 function main() {
+  # Limpa a console.
   clear
 
-  # Instala as dependências python em ambiente virtual.
   setup_venv || return 1
 
   # Recupera o IP da máquina de forma dinâmica.
@@ -40,14 +22,10 @@ function main() {
 
   # Exporta as variáveis que serão recuperadas no script python.
   export host="$host"
-  export http_port="8082"
-  export ws_port="8081"
-  export log_level='DEBUG'
+  export log_level='INFO'
 
-  # Verifica portas antes de executar.
-#  verify_ports || return 1
-
-  # Roda com os argumentos. Esses argumentos são passados para os inputs automaticamente.
+  # Roda com os argumentos ($@).
+  # Esses argumentos são passados para os inputs automaticamente.
   pipenv run python main "$@"
 }
 

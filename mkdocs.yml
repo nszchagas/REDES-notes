@@ -37,4 +37,5 @@ extra_javascript:
 
 nav:
   - Início: index.md
-  - HTTP: trabalho2/http.md
+  - HTTP: http_lab/http.md
+  - WebSocket: websocket_lab/relatorio.md

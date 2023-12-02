@@ -42,3 +42,29 @@ def get_env() -> dict:
                 'log_level': environ['log_level'].upper()}
     except KeyError as e:
         logger.error(f'Provide value for {e}.')
+
+
+def format_results(results: list[dict]):
+    if not len(results):
+        return
+
+    table = []
+    max_widths = [max(len(str(k)), len(str(v))) for k, v in results[0].items()]
+    headers = [key.replace("_", " ")
+               .capitalize()
+               .ljust(max_widths[i])
+               for i, key in enumerate(results[0].keys())]
+    header = '|' + ' | '.join(headers) + '|'
+    separators = '|' + ' | '.join(['-' * x for x in max_widths]) + '|'
+
+    print(header)
+    print(separators)
+    table += [header, separators]
+    for r in results:
+        row = '|' + \
+            ' | '.join(str(value).ljust(max_widths[i])
+                       for i, value in enumerate(r.values())) + '|'
+        print(row)
+        table.append(row)
+
+    return table

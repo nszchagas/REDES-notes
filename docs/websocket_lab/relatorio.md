@@ -112,7 +112,67 @@ O código fonte foi organizado em pacotes python, seguindo a seguinte estrutura:
 │       └── __init__.py
 ```
 
+#### Pacote principal
+
+O entrypoint do script encontra-se no arquivo `files/main/__main__.py`.
+
+```python title="__main.py__" linenums="1"
+--8<--
+websocket_lab/files/main/__main__.py
+--8<--
+```
+
+#### Configuração dos Servidores
+
+Os clientes encontram-se no módulo `files/main/servers`.
+
+```python title="servers/http_server.py" linenums="1"
+--8<--
+websocket_lab/files/main/servers/http_server.py
+--8<--
+```
+
+```python title="servers/ws_server.py" linenums="1"
+--8<--
+websocket_lab/files/main/servers/ws_server.py
+--8<--
+```
+
+```python title="servers/__init__.py" linenums="1"
+--8<--
+websocket_lab/files/main/servers/__init__.py
+--8<--
+```
+
 #### Configurações dos Clientes
+
+Os clientes encontram-se no módulo `files/main/clients`.
+
+```python title="clients/http_client.py" linenums="1"
+--8<--
+websocket_lab/files/main/clients/http_client.py
+--8<--
+```
+
+```python title="clients/ws_client.py" linenums="1"
+--8<--
+websocket_lab/files/main/clients/ws_client.py
+--8<--
+```
+
+```python title="clients/__init__.py" linenums="1"
+--8<--
+websocket_lab/files/main/clients/__init__.py
+--8<--
+```
+
+### Módulo de Utilitários
+
+```python title="utils/__init__.py" linenums="1"
+--8<--
+websocket_lab/files/main/utils/__init__.py
+--8<--
+```
 
 ### Execução
 
@@ -120,28 +180,42 @@ Os argumentos fornecidos para o script são repassados para o módulo main do py
 testes passando as entradas desejadas separadas por espaços. O comando `/bin/bash start 4 80 100 -1` testa os servidores
 com 4, 80 e 100 pings, em seguida finaliza os testes.
 
-### Resultados
+Para obtenção de resultados mais significativos, o teste foi realizado com 1000, 5000, 10000 e 200000 requisições.
+
+```shell
+bin/bash files/start 1000 5000 10000 200000 -1
+```
+
+#### Resultados Obtidos
+
+Os resultados obtidos foram registrados na tabela 1, presente também no arquivo `files/results.md`.
 
 --8<--
 websocket_lab/files/results.md
 --8<--
 
+<tab> Resultados obtidos. </tab>
+
 ## Considerações Finais
+
+A partir dos resultados obtidos (Tabela 1), foram realizados os cálculos de diferença de desempenho de acordo com a quantidade de requisições e os resultados obtidos (Tabela 2).
+
+--8<--
+websocket_lab/tabela.html
+--8<--
+
+Os resultados da tabela 2 foram representados graficamente (Figura 6), evidenciando a disparidade no desempenho dos protocolos para um grande número de requisições sequenciais.
+
+![](./assets/3228.png)
+<fig>Gráfico comparativo entre a duração das requisições. (Fonte: autoria própria)</fig>
+
+Os resultados obtidos reforçam a eficiência do protocolo websockets no contexto de comunicação em tempo real. O padrão linear de crescimento da diferença de performance também indica que quanto menor o número de requisições, menor a diferença de performance, sendo assim o protocolo HTTP mais adequado.
 
 ## Referências
 
-[1] <https://medium.com/swlh/getting-started-with-unix-domain-sockets-4472c0db4eb1> <br/>
-[2] <https://datatracker.ietf.org/doc/html/rfc6455> <br/>
-[3] <https://www.wallarm.com/what/websocket-vs-http-how-are-these-2-different> <br/>
-
-[1] FreeCodeCamp. **An Introduction to HTTP: Understanding the Open Systems Interconnection Model**. Disponível
-em: <https://www.freecodecamp.org/news/an-introduction-to-http-understanding-the-open-systems-interconnection-model-9dd06233d30e/>.
-Acesso em: 20/11/2023. <br/>
-[2] Mozilla Developer Network (MDN). **Client-Server Overview**. Disponível
-em: <https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Client-Server_overview>. Acesso em:
-20/11/2023. <br/>
-[3] TANENBAUM, Andrew S.; WETHERALL, David J. **Computer Networks**. 5th ed. [Local de Publicação]: Editora, Ano. <br/>
-
-<https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API>
-
-<https://websockets.spec.whatwg.org/#the-websocket-interface>
+[1] MOL, Marcos. **Getting Started with Unix Domain Sockets**. Medium, [S.l.], [s.d.]. Disponível em: <https://medium.com/swlh/getting-started-with-unix-domain-sockets-4472c0db4eb1>. Acesso em: 02 dez. 2023. <br/>
+[2] IETF. **RFC 6455 - The WebSocket Protocol**. [S.l.], [s.d.]. Disponível em: <https://datatracker.ietf.org/doc/html/rfc6455>. Acesso em: 02 dez. 2023. <br/>
+[3] WALLARM. **WebSocket vs HTTP: How Are These 2 Different?**. [S.l.], [s.d.]. Disponível em: <https://www.wallarm.com/what/websocket-vs-http-how-are-these-2-different>. Acesso em: 02 dez. 2023. <br/>
+[4] TANENBAUM, Andrew S.; WETHERALL, David J. **Redes de Computadores**. 5. ed. [Local de Publicação]: Editora, Ano. <br/>
+[5] MOZILLA. **WebSockets API**. [S.l.], [s.d.]. Disponível em: <https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API>. Acesso em: 02 dez. 2023. <br/>
+[6] WHATWG. **The WebSocket Interface**. [S.l.], [s.d.]. Disponível em: <https://websockets.spec.whatwg.org/#the-websocket-interface>. Acesso em: 02 dez. 2023. <br/>
