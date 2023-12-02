@@ -1,4 +1,5 @@
 import logging
+import time
 from http.server import BaseHTTPRequestHandler
 from socketserver import TCPServer
 
@@ -29,9 +30,7 @@ class HTTPHandler(BaseHTTPRequestHandler):
         http_logger.info(f'Request headers: {format_header_as_str(self.headers)}')
 
 
-def serve_http(**kwargs):
-    host: str = kwargs['host']
-    http_port: int = int(kwargs['http_port'])
+def serve_http(host: str, http_port: int, **kwargs):
     httpd = TCPServer((host, http_port), HTTPHandler)
     http_logger.info(f'Starting HTTP server at port: {http_port}')
     httpd.serve_forever()

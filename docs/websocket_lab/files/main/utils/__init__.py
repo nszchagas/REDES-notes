@@ -1,4 +1,5 @@
 import logging
+from os import environ
 
 # Setup logger
 logging.basicConfig(format="[%(levelname)s %(asctime)s] (%(name)s): %(message)s",
@@ -21,3 +22,12 @@ def format_header_as_str(headers) -> str:
     # print(h.keys())
     infos = ['Connection', 'Host', 'User-Agent', 'Content-Length']
     return '; '.join([f'{k}: {h.get(k)}' for k in infos if h.get(k)])
+
+
+def get_env() -> dict:
+    try:
+        return {'host': str(environ['host']),
+                'ws_port': int(environ['ws_port']),
+                'http_port': int(environ['http_port'])}
+    except KeyError as e:
+        logger.error(f'Provide value for {e}.')

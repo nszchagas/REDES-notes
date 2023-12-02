@@ -21,27 +21,35 @@ function verify_ports() {
 # Instala dependências para execução correta do script.
 # É necessário ter o pipenv na máquina.
 function setup_venv() {
-  status="$(pipenv verify)"
+  status="$(pipenv verify)" || return 1
   if ! [[ $status == **up-to-date** ]]; then
     echo "Instalando dependências do Pipfile."
     pipenv install
+    clear
   fi
-  clear
 }
 
-# Instala as dependências python em ambiente virtual.
-setup_venv
+function main() {
 
-# Recupera o IP da máquina de forma dinâmica.
-host=$(hostname -I | awk -F ' ' '{print $1}')
+  # Instala as dependências python em ambiente virtual.
+  setup_venv || return 1
 
-# Exporta as variáveis que serão recuperadas no script python.
-export host="$host"
-export http_port="8082"
-export ws_port="8081"
+  # Recupera o IP da máquina de forma dinâmica.
+  host=$(hostname -I | awk -F ' ' '{print $1}')
 
-# Verifica portas antes de executar.
-verify_ports
+  # Exporta as variáveis que serão recuperadas no script python.
+  export host="$host"
+  export http_port="8082"
+  export ws_port="8081"
 
-# Roda com os argumentos. Esses argumentos são passados para os inputs automaticamente.
-pipenv run python main "$@"
+  # Verifica portas antes de executar.
+  verify_ports || return 1
+
+  # Roda com os argumentos. Esses argumentos são passados para os inputs automaticamente.
+  pipenv run python main "$@"
+}
+
+main "$@" || {
+  echo "Error. Aborting."
+  exit 1
+}

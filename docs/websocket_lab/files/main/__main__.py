@@ -2,34 +2,13 @@ import logging
 import sys
 import time
 from multiprocessing import Process
+from typing import Callable
 
-from os import environ as getenv
-from threading import Thread
-
-from utils import logger
-
+from utils import logger, get_env
 from http_module import http_connect, serve_http
 
 
-# from ws import ws_connect, serve_ws
-
-#
-
-
-def main():
-    pass
-
-
-#
-#         ws_tests = [Thread(target=f, args=[host, ws_port], kwargs={'qtd_pings': qt_pings}) for f in
-#                     [serve_ws, ws_connect]]
-#         [t.start() for t in ws_tests]
-#
-#
-#
-#         for i, t in enumerate(ws_tests + http_tests):
-#             t.join()
-#             logger.info(f'Finished server {i}.')
+# from ws_module import ws_connect, serve_ws
 
 def get_input(prompt: str) -> str:
     global arg, args
@@ -40,48 +19,74 @@ def get_input(prompt: str) -> str:
         return input(prompt)
 
 
+def get_option() -> int:
+    for i, x in enumerate(ops):
+        print(f'[{i + 1}] {x["desc"]}')
+    y = int(get_input('Choose test to run [-1 to exit]: '))
+    if y == -1:
+        return y
+    return y - 1
+
+
+def start_server(s: Process):
+    retries = 5
+    while retries:
+        try:
+            s.start()
+        except OSError as e:
+            s.kill()
+            logger.warn(f'Retrying... [{e}]')
+            time.sleep(1)
+            retries -= 1
+        else:
+            break
+
+        logger.error('Failed to start server after retries.')
+
+
+def run_option(desc: str, server: Process, client: Callable):
+    global d
+    play = desc.lower()
+    logger.debug(f'Starting server to {play}')
+
+    if not server.is_alive():
+        server.start()
+
+    d['qt_pings'] = int(get_input("How many pings should I send?\n"))
+    c = Process(target=client, kwargs=d)
+
+    logger.debug(f'Starting client to {play}')
+    c.start()
+    c.join()
+
+
 if __name__ == '__main__':
-    d = {}
     arg = 1
     args = sys.argv
+    d = get_env()
 
-    try:
-        d['host'] = str(getenv['host'])
-        d['ws_port'] = int(getenv['ws_port'])
-        d['http_port'] = int(getenv['http_port'])
-
-    except KeyError as e:
-        logger.error(f'Provide value for {e}.')
     logger.setLevel(logging.DEBUG)
     logger.debug(f'Starting with args: {d}')
+
     ops = [
         {
             'desc': 'Play ping pong with HTTP.',
-            'server': serve_http,
+            'server': Process(target=serve_http, kwargs=d, name='HTTP Server'),
             'client': http_connect
         },
-        {
-            'desc': 'Play ping pong with WS.',
-            # 'server': serve_ws,
-            # 'client': ws_connect
-        },
+        # {
+        # 'desc': 'Play ping pong with WS.',
+        # 'server': serve_ws,
+        # 'client': ws_connect
+        # },
     ]
-    for i, x in enumerate(ops):
-        print(f'[{i + 1}] {x["desc"]}')
-
-    op = int(get_input('Choose test to run: ')) - 1
-    play = ops[op]["desc"].lower()
-    logger.debug(f'Starting server to {play}')
-
-    server = Process(target=ops[op]['server'], kwargs=d)
-    server.start()
-
-    d['qt_pings'] = int(get_input("How many pings should I send?\n"))
-
-    logger.debug(f'Starting client to {play}')
-
-    client = Process(target=ops[op]['client'], kwargs=d)
-    client.start()
-
-    client.join()
-    server.kill()
+    try:
+        op = get_option()
+        while op != -1:
+            run_option(**ops[op])
+            op = get_option()
+        for s in [d['server'] for d in ops]:
+            logger.info(f'Stopping process: {s.name}.')
+            s.kill()
+    except Exception as e:
+        logger.error(e)
