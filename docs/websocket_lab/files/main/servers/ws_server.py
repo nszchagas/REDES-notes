@@ -1,15 +1,22 @@
 import asyncio
+
+import websockets
 from websockets import WebSocketServerProtocol, serve
-from utils import ws_logger as logger, get_reply
+from utils import ws_logger as logger, get_reply, format_header_as_str
 
 
 # Função assíncrona para receber e responder às requisições via WebSocket.
 async def ws_handler(websocket: WebSocketServerProtocol, path: str):
-    logger.info(f'Client connected on path: {path}. Requesting info...')
-    logger.info(f'Client headers: {websocket.request_headers}')
-    data = await websocket.recv()
-    logger.info(f'Websocket received data: {data}')
-    await websocket.send(get_reply(data))
+    # Mantém a conexão ativa.
+    logger.info(f'Client connected. Request headers: {format_header_as_str(websocket.request_headers)}')
+    while True:
+        try:
+            data = await websocket.recv()
+            logger.info(f"Received data: {data}")
+            await websocket.send(get_reply(data))
+        except websockets.ConnectionClosedError as e:
+            logger.debug(f'Connection terminated. [{e}]')
+            break
 
 
 def serve_ws(host: str, ws_port: int, **kwargs):

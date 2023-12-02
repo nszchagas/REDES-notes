@@ -13,8 +13,8 @@ function verify_ports() {
 
   # Enquanto há atividade nas portas, espera a finalização.
   while [[ -n "$(is_running)" ]]; do
+    sleep 1
     printf "."
-    sleep 2
   done
 }
 
@@ -30,6 +30,7 @@ function setup_venv() {
 }
 
 function main() {
+  clear
 
   # Instala as dependências python em ambiente virtual.
   setup_venv || return 1
@@ -41,9 +42,10 @@ function main() {
   export host="$host"
   export http_port="8082"
   export ws_port="8081"
+  export log_level='DEBUG'
 
   # Verifica portas antes de executar.
-  verify_ports || return 1
+#  verify_ports || return 1
 
   # Roda com os argumentos. Esses argumentos são passados para os inputs automaticamente.
   pipenv run python main "$@"
