@@ -1,6 +1,3 @@
-
-# Lista 2
-
 ## Arquivo 1: p2_2022-2
 
 ### Questão 1
