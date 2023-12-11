@@ -1,3 +1,6 @@
+<head><meta charset="utf-8"/></head>
+<style>@page{margin: 10mm;size: A4 portrait}
+</style>
 
 # Lista 2
 
@@ -5,7 +8,7 @@
 
 Com base no código a seguir, analise as questões apresentadas e marque a alternativa CORRETA:
 
-![p2_2022-2-1.png](./p2_2022-2-1.png)
+![](./p2_2022-2-1.png)
 
 I - Para que os dois clientes possam acessar o servidor simultaneamente, será necessário que o servidor instancie dois processos filhos para atender essas conexões. Do contrário, um dos clientes ficará aguardando até que o outro termine o diálogo iniciado.
 
@@ -49,7 +52,7 @@ e. Autenticidade;
 
 Analise as questões e marque a alternativa CORRETA:
 
-![p2_2022-2-2.png](./p2_2022-2-2.png)
+![](./p2_2022-2-2.png)
 
 a. Se a máquina X não contivesse sistema operacional, poderia requisitá-lo de um servidor presente na Internet por meio do protocolo ARP
 
@@ -63,7 +66,7 @@ e. Na configuração do desenho, basta um único servidor DHCP para atender a re
 
 * Gabarito: * A resposta correta é: Nenhuma das alternativas apresentada é correta.
 
-* Comentário: O serviço DHCP é baseado em endereços MAC e, por isso, o serviço não é roteável naturalmente. Por outro lado, se o serviço DHCP estiver no roteador R, ele só consegue atribuir endereços (de redes distintas) para as redes locais (i) e (ii) e o mesmo ocorre com o roteador S, visualizando apenas as redes (ii) e (iii). Portanto, na con�guração apresentada seriam necessários pelo menos dois servidores DHCP para atender os três segmentos de rede local.
+* Comentário: O serviço DHCP é baseado em endereços MAC e, por isso, o serviço não é roteável naturalmente. Por outro lado, se o serviço DHCP estiver no roteador R, ele só consegue atribuir endereços (de redes distintas) para as redes locais (i) e (ii) e o mesmo ocorre com o roteador S, visualizando apenas as redes (ii) e (iii). Portanto, na configuração apresentada seriam necessários pelo menos dois servidores DHCP para atender os três segmentos de rede local.
 * Comentário 2: Se Z for configurado com um IP válido e não-privado, não será
 preciso utilizar NAT. Além disso, mesmo que Z tenha IP privado, o NAT
 pode ser instalado no host  S.
@@ -101,7 +104,7 @@ e. Uma forma da Petrobrás garantir a confidencialidade dos dados, seria a utili
 
 Considere a configuração de rede a seguir, considerando a quantidade de equipamentos assinalada na figura para cada segmento de rede:
 
-![p2_2022-2-3.png](./p2_2022-2-3.png)
+![](./p2_2022-2-3.png)
 
 Assumindo um endereço de rede classe C que deve ser utilizado para endereçar todos os hosts dessa rede, analise os itens apresentados a seguir e marque a resposta correta:
 
@@ -230,11 +233,11 @@ e. Apenas I e III estão corretas
 
 Considere a seguinte topologia, cujos equipamentos são atualizados por algoritmos de roteamento dinâmico:
 
-![p2_2022-2-4.png](./p2_2022-2-4.png)
+![](./p2_2022-2-4.png)
 
 Suponha que tais equipamentos estejam configurados com o protocolo  RIP (distance vector) e que, num determinado momento, os seguintes vetores chegaram ao roteador C:
 
-![p2_2022-2-5.png](./p2_2022-2-5.png)
+![](./p2_2022-2-5.png)
 
 Com base nessas informações, responda a alternativa correta em relação à nova tabela de rotas do equipamento C (contendo os novos atrasos em relação aos roteadores):
 
@@ -372,3 +375,11 @@ A resposta deve ser feita nos moldes da tabela a seguir:
 ![](./assets/2411.png)
 
 * Gabarito: ![](./p2_2022-7.png)
+
+## (p2_2022-3) Questão 2 (Aberta)
+
+Um aluno entra no computador do laboratório e digita o seguinte endereço no browser: <http://ohio.infoway.vista.edu/chamex.html>. Explique como o servidor DNS do laboratório consegue descobrir o endereço IP da máquina que contém o arquivo chamex.html. Na resposta, apontar os hosts DNS envolvidos e explicar passo a passo como ocorre a resolução de endereços nesse caso.
+
+![](./assets/5946.png)
+
+* Gabarito: ![](./assets/5958.png)
