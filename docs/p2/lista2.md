@@ -26,8 +26,6 @@ d. Todas afirmações estão corretas
 
 e. Apenas a afirmação I é correta
 
-* Gabarito: A resposta correta é: Apenas a afirmação III está correta
-
 ## (p2_2022-2) Questão 2
 
 Em questão de minutos, uma onda gigantesca de acessos tirou do ar o Yahoo!. O método usado no ataque pode ser entendido por meio de uma analogia. É como se você desse tanto trabalho para uma pessoa fazer que ela pararia tudo o que estivesse fazendo para ficar apenas 'anotando os seus pedidos, sem prestar atenção a mais ninguém'.
@@ -46,8 +44,6 @@ d. Controle de Acesso.
 
 e. Autenticidade;
 
-* Gabarito: A resposta correta é: Disponibilidade;
-
 ## (p2_2022-2) Questão 3
 
 Analise as questões e marque a alternativa CORRETA:
@@ -64,11 +60,6 @@ d. Para que a máquina Z da configuração acima tenha acesso à Internet será 
 
 e. Na configuração do desenho, basta um único servidor DHCP para atender a rede toda (supor que não existe relay de DHCP - repassador de mensagens DHCP entre roteadores).
 
-* Gabarito: * A resposta correta é: Nenhuma das alternativas apresentada é correta.
-
-* Comentário: O serviço DHCP é baseado em endereços MAC e, por isso, o serviço não é roteável naturalmente. Por outro lado, se o serviço DHCP estiver no roteador R, ele só consegue atribuir endereços (de redes distintas) para as redes locais (i) e (ii) e o mesmo ocorre com o roteador S, visualizando apenas as redes (ii) e (iii). Portanto, na configuração apresentada seriam necessários pelo menos dois servidores DHCP para atender os três segmentos de rede local.
-* Comentário 2: Se Z for configurado com um IP válido e não-privado, não será
-preciso utilizar NAT. Além disso, mesmo que Z tenha IP privado, o NAT
 pode ser instalado no host  S.
 
 ## (p2_2022-2) Questão 4
@@ -98,8 +89,6 @@ d. O roubo das informações caracterizou um ataque ao serviço de disponibilida
 
 e. Uma forma da Petrobrás garantir a confidencialidade dos dados, seria a utilização de mecanismos de criptografia.
 
-* Gabarito: A resposta correta é: Uma forma da Petrobrás garantir a confidencialidade dos dados, seria a utilização de mecanismos de criptografia.
-
 ## (p2_2022-2) Questão 5
 
 Considere a configuração de rede a seguir, considerando a quantidade de equipamentos assinalada na figura para cada segmento de rede:
@@ -117,9 +106,6 @@ c. A fim de minimizar o desperdício de endereços, é possível utilizar uma fa
 d. A máscara de sub-rede 255.255.255.224 aplicada ao segmento de rede #1 será suficiente para mapear todos os endereços dessa rede
 
 e. Considerando desperdício mínimo de endereços em cada sub-rede, a máscara adequada para a rede #2 desperdiçará mais endereços do que a rede #3
-
-* Gabarito: A resposta correta é: Considerando desperdício mínimo de endereços em cada sub-rede, a máscara adequada para a rede #2 desperdiçará mais endereços do que a rede #3
-* Comentário: Errado. Nesse segmento há 32 hosts e a máscara 255.255.255.224 consegue mapear apenas 30 endereços para os hosts. Nesse caso, uma máscara 255.255.255.192 resolveria.
 
 ## (p2_2022-2) Questão 6
 
@@ -141,10 +127,6 @@ d. As alternativas (i) e (iii) estão corretas
 
 e. Apenas a alternativa (iii) está correta
 
-* Gabarito: A resposta correta é: Apenas a alternativa (ii) está correta
-
-* Comentário: (i) Falso. Pacotes IP possuem área de dados e de payload variável, mas o conjunto todo pode chegar a 64K, uma vez que o campo Total Lenght do cabeçalho tem 16 bits (2ˆ16 =64K) (ii) Verdadeiro. Numa rede IP, os pacotes tem o seu cabeçalho alterado por rotinas de controle. Por exemplo, o campo TTL (Time to Live) é decrementado a cada salto que o pacote sofre e essa alteração exige que o campo Header CheckSum seja recalculado a cada roteador intermediário. (iii) Falso. Em redes IP, a faixa 127.0.0.0 é um endereço Classe A alocado para loopback, ou seja, os IPs dessa faixa são utilizados apenas para conexões IP internas ao host e não para comunicação entre hosts.
-
 ## (p2_2022-2) Questão 7
 
 Analise as afirmações abaixo e, a seguir, marque a alternativa correta
@@ -165,10 +147,6 @@ d. Apenas (i) e (iii) são falsas
 
 e. Apenas (i) é falsa
 
-* Gabarito: A resposta correta é: Apenas (i) e (iii) são falsas
-
-* Comentário: (i) Falso. O bit URG precisa ser utilizado em conjunto com o campo Urgent Pointer do cabeçalho TCP para garantir a correta identificação da posição onde começam os dados urgentes a serem interpretados pelo destinatário. (ii) Verdadeiro (iii) Falso. Os campos IHL e Total length informam os tamanhos do cabeçalho e do segmento TCP, dando a entender que tanto o cabeçalho quanto o payload são de tamanho variável.
-
 ## (p2_2022-2) Questão 8
 
 Sobre criptografia, marque a alternativa correta:
@@ -184,8 +162,6 @@ c. Na esteganografia troca-se a posição dos caracteres na mensagem.
 d. Para melhor segurança, é importante que a lógica do algoritmo não seja divulgada.
 
 e. Criptoanálise é o estudo de meios para "quebrar" um algoritmo de criptografia ou criptograma.
-
-* Gabarito: A resposta correta é: Criptoanálise é o estudo de meios para "quebrar" um algoritmo de criptografia ou criptograma.
 
 ## (p2_2022-2) Questão 9 (Aberta)
 
@@ -209,8 +185,6 @@ c. Apenas a alternativas III  está correta
 
 d. Todas estão incorretas e. Apenas I e II estão corretas
 
-* Gabarito: A resposta correta é: Todas estão incorretas
-
 ## (p2_2022-2) Questão 11
 
 Sobre a camada de transporte, analise as afirmações abaixo e escolha a alternativa CORRETA.
@@ -226,8 +200,6 @@ b. Apenas I e II estão corretas
 c. Apenas II e III estão corretas
 d. Apenas I está correta
 e. Apenas I e III estão corretas
-
-* Gabarito: A resposta correta é: Todas estão corretas
 
 ## (p2_2022-2) Questão 12
 
@@ -251,9 +223,6 @@ d. A soma dos atrasos dos vizinhos em relação a D é superior a 20
 
 e. Nenhuma das alternativas apresentadas é correta
 
-* Gabarito: A resposta correta é: A soma dos atrasos dos vizinhos em relação a D é superior a 20
-* Comentário: O caminho correto é CDF. A soma dos atrasos dos vizinhos é igual a 30 (8+6; 5+0;   7+4)
-
 ## (p2_2022-2) Questão 13
 
 De acordo com as características do algoritmo DES, analise as afirmações abaixo e assinale a opção correta.
@@ -276,8 +245,6 @@ d. Somente II é verdadeira.
 
 e. Somente II e III são falsas.
 
-* Gabarito: A resposta correta é: Somente II e III são falsas.
-
 ## (p2_2022-2) Questão 14
 
 Podemos dizer que a integridade está comprometida na seguinte situação:
@@ -293,8 +260,6 @@ C. Interrupção de uma rede por causa de uma inundação de tráfego que degrad
 D. Captura e acesso a um arquivo transferido via rede entre um cliente e um servidor;
 
 E. Alteração de partes de uma mensagem legítima; Obter o aplicativo para dispositivos móveis
-
-* Gabarito: Alteração de partes de uma mensagem legítima; Obter o aplicativo para dispositivos móveis
 
 ## (p2_2022) Questão 4
 
@@ -318,8 +283,6 @@ d.Todas as afirmações são falsas.
 
 e.Somente I e III são falsas.
 
-* Gabarito: A resposta correta é: Somente I e III são falsas.
-
 ## (p2_2022) Questão 8
 
 Marcação de caractere, uso de tinta invisível, perfurações, fita corretiva de máquina de escrever, entre outras técnicas caracterizam:
@@ -335,8 +298,6 @@ c.Esteganografia.
 d.Criptoanálise.
 
 e.Criptografia.
-
-* Gabarito: A resposta correta é: Esteganografia.
 
 ## (p2_2022) Questão 11
 
@@ -358,9 +319,6 @@ d.Apenas (ii) e (iii) estão corretas
 
 e.Apenas (i) está correta
 
-* Comentário: (i) Correto (ii) Correto. (iii) Serviços da camada de aplicação do modelo TCP/IP são baseados nos modelos P2P e Cliente/servidor. Por outro lado, as instâncias da camada de transporte são entidades pares, na qual nenhuma delas assume o papel de cliente ou servidor
-* Gabarito: As respostas corretas são: Apenas (i) e (ii) estão corretas, Apenas (i) e (iii) estão corretas
-
 ## (p2_2022) Questão 15 (Aberta)
 
 Analise a configuração de rede a seguir, distribua os endereços e mostre as tabelas de rota dos equipamentos X, Y, R e W, de modo que haja conectividade (a nível de camada IP entre todos esses equipamentos e também com a Internet). Considerar ainda, que as conexões de R com os roteadores X, Y e Z, devem ser resolvidas com desperdício mínimo de endereços, da faixa 192.168.100.0 (usar máscara de sub- rede nesses enlaces).
@@ -374,12 +332,6 @@ A resposta deve ser feita nos moldes da tabela a seguir:
 
 ![](./assets/2411.png)
 
-* Gabarito: ![](./p2_2022-7.png)
-
 ## (p2_2022-3) Questão 2 (Aberta)
 
 Um aluno entra no computador do laboratório e digita o seguinte endereço no browser: <http://ohio.infoway.vista.edu/chamex.html>. Explique como o servidor DNS do laboratório consegue descobrir o endereço IP da máquina que contém o arquivo chamex.html. Na resposta, apontar os hosts DNS envolvidos e explicar passo a passo como ocorre a resolução de endereços nesse caso.
-
-![](./assets/5946.png)
-
-* Gabarito: ![](./assets/5958.png)
