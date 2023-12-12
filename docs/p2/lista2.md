@@ -10,7 +10,7 @@ body {
 
 </style>
 
-### (p2_2022-2) Questão 1
+### Questão 1
 
 Com base no código a seguir, analise as questões apresentadas e marque a alternativa CORRETA:
 
@@ -28,7 +28,7 @@ c. Apenas a afirmação III está correta
 d. Todas afirmações estão corretas
 e. Apenas a afirmação I é correta
 
-### (p2_2022-2) Questão 2
+### Questão 2
 
 Em questão de minutos, uma onda gigantesca de acessos tirou do ar o Yahoo!. O método usado no ataque pode ser entendido por meio de uma analogia. É como se você desse tanto trabalho para uma pessoa fazer que ela pararia tudo o que estivesse fazendo para ficar apenas 'anotando os seus pedidos, sem prestar atenção a mais ninguém'.
 
@@ -42,7 +42,7 @@ c. Integridade;
 d. Controle de Acesso.
 e. Autenticidade;
 
-### (p2_2022-2) Questão 3
+### Questão 3
 
 Analise as questões e marque a alternativa CORRETA:
 
@@ -53,9 +53,10 @@ b. Na configuração do desenho, um pacote IP com TTL=3 saindo de X não consegu
 c. Nenhuma das alternativas apresentada é correta
 e. Na configuração do desenho, basta um único servidor DHCP para atender a rede toda (supor que não existe relay de DHCP - repassador de mensagens DHCP entre roteadores).
 
-pode ser instalado no host  S.
+Comentários:
+O serviço DHCP é baseado em endereços MAC e, por isso, o serviço não é roteável naturalmente. Por outro lado, se o serviço DHCP estiver no roteador R, ele só consegue atribuir endereços (de redes distintas) para as redes locais (i) e (ii) e o mesmo ocorre com o roteador S, visualizando apenas as redes (ii) e (iii). Portanto, na configuração apresentada seriam necessários pelo menos dois servidores DHCP para atender os três segmentos de rede local. Se Z for configurado com um IP válido e não-privado, não será preciso utilizar NAT. Além disso, mesmo que Z tenha IP privado, o NAT pode ser instalado no host  S.
 
-### (p2_2022-2) Questão 4
+### Questão 4
 
 Folha de São Paulo - 14/02/2008 - 11h33
 Petrobras confirma furto de informações sigilosas
@@ -78,7 +79,7 @@ c. A integridade dos dados das pesquisas feitas pela Petrobrás foi atingida nes
 d. O roubo das informações caracterizou um ataque ao serviço de disponibilidade da Petrobrás.
 e. Uma forma da Petrobrás garantir a confidencialidade dos dados, seria a utilização de mecanismos de criptografia.
 
-### (p2_2022-2) Questão 5
+### Questão 5
 
 Considere a configuração de rede a seguir, considerando a quantidade de equipamentos assinalada na figura para cada segmento de rede:
 
@@ -91,7 +92,9 @@ c. A fim de minimizar o desperdício de endereços, é possível utilizar uma fa
 d. A máscara de sub-rede 255.255.255.224 aplicada ao segmento de rede #1 será suficiente para mapear todos os endereços dessa rede
 e. Considerando desperdício mínimo de endereços em cada sub-rede, a máscara adequada para a rede #2 desperdiçará mais endereços do que a rede #3
 
-### (p2_2022-2) Questão 6
+Comentários: Nesse segmento há 32 hosts e a máscara 255.255.255.224 consegue mapear apenas 30 endereços para os hosts. Nesse caso, uma máscara 255.255.255.192 resolveria.
+
+### Questão 6
 
 Analise as afirmativas abaixo e, em seguida, marque a alternativa correta.
 
@@ -111,7 +114,13 @@ d. As alternativas I) e III) estão corretas
 
 e. Apenas a alternativa III) está correta
 
-### (p2_2022-2) Questão 7
+Comentários:
+
+(i) Falso. Pacotes IP possuem área de dados e de payload variável, mas o conjunto todo pode chegar a 64K, uma vez que o campo Total Lenght do cabeçalho tem 16 bits (2ˆ16 =64K)
+(ii) Verdadeiro. Numa rede IP, os pacotes tem o seu cabeçalho alterado por rotinas de controle. Por exemplo, o campo TTL (Time to Live) é decrementado a cada salto que o pacote sofre e essa alteração exige que o campo Header CheckSum seja recalculado a cada roteador intermediário.
+(iii) Falso. Em redes IP, a faixa 127.0.0.0 é um endereço Classe A alocado para loopback, ou seja, os IPs dessa faixa são utilizados apenas para conexões IP internas ao host e não para comunicação entre hosts.
+
+### Questão 7
 
 Analise as afirmações abaixo e, a seguir, marque a alternativa correta
 
@@ -131,7 +140,12 @@ d. Apenas I) e III) são falsas
 
 e. Apenas I) é falsa
 
-### (p2_2022-2) Questão 8
+Comentários:
+(i) Falso. O bit URG precisa ser utilizado em conjunto com o campo Urgent Pointer do cabeçalho TCP para garantir a correta identificação da posição onde começam os dados urgentes a serem interpretados pelo destinatário.
+(ii) Verdadeiro
+(iii) Falso. Os campos IHL e Total length informam os tamanhos do cabeçalho e do segmento TCP, dando a entender que tanto o cabeçalho quanto o payload são de tamanho variável.
+
+### Questão 8
 
 Sobre criptografia, marque a alternativa correta:
 
@@ -143,11 +157,11 @@ c. Na esteganografia troca-se a posição dos caracteres na mensagem.
 d. Para melhor segurança, é importante que a lógica do algoritmo não seja divulgada.
 e. Criptoanálise é o estudo de meios para "quebrar" um algoritmo de criptografia ou criptograma.
 
-### (p2_2022-2) Questão 9 (Aberta)
+### Questão 9 (Aberta)
 
 Explique como funcionam os protocolos IMAP, POP e SMTP para o serviço de e-mails. Na explicação, descrever a relação entre esses protocolos, caso exista
 
-### (p2_2022-2) Questão 10
+### Questão 10
 
 Sobre a camada de transporte, analise as afirmações abaixo e escolha a alternativa CORRETA.
 
@@ -162,7 +176,7 @@ b. Apenas II e III estão corretas
 c. Apenas a alternativas III  está correta
 d. Todas estão incorretas e. Apenas I e II estão corretas
 
-### (p2_2022-2) Questão 11
+### Questão 11
 
 Sobre a camada de transporte, analise as afirmações abaixo e escolha a alternativa CORRETA.
 
@@ -178,7 +192,7 @@ c. Apenas II e III estão corretas
 d. Apenas I está correta
 e. Apenas I e III estão corretas
 
-### (p2_2022-2) Questão 12
+### Questão 12
 
 Considere a seguinte topologia, cujos equipamentos são atualizados por algoritmos de roteamento dinâmico:
 
@@ -196,7 +210,9 @@ c. A diferença dos atrasos de C em relação à A e B é igual a 3
 d. A soma dos atrasos dos vizinhos em relação a D é superior a 20
 e. Nenhuma das alternativas apresentadas é correta
 
-### (p2_2022-2) Questão 13
+Comentários: O caminho correto é CDF. A soma dos atrasos dos vizinhos é igual a 30 (8+6; 5+0; 7+4)
+
+### Questão 13
 
 De acordo com as características do algoritmo DES, analise as afirmações abaixo e assinale a opção correta.
 
@@ -214,7 +230,7 @@ c. Todas as afirmações são falsas.
 d. Somente II é verdadeira.
 e. Somente II e III são falsas.
 
-### (p2_2022-2) Questão 14
+### Questão 14
 
 Podemos dizer que a integridade está comprometida na seguinte situação:
 
@@ -226,7 +242,7 @@ c. Interrupção de uma rede por causa de uma inundação de tráfego que degrad
 d. Captura e acesso a um arquivo transferido via rede entre um cliente e um servidor;
 e. Alteração de partes de uma mensagem legítima; Obter o aplicativo para dispositivos móveis
 
-### (p2_2022) Questão 4
+### Questão 4
 
 Considere um grupo de N pessoas que se comunicam entre si usando Criptografia simétrica. Todas as comunicações entre quaisquer duas pessoas do grupo também são visíveis para as demais. Nenhuma outra pessoa fora deste grupo pode decriptar as mensagens trocadas. Com base nisto, analise as afirmações abaixo e marque a alternativa correta.
 
@@ -242,7 +258,7 @@ c. Somente II e III são falsas.
 d. Todas as afirmações são falsas.
 e. Somente I e III são falsas.
 
-### (p2_2022) Questão 8
+### Questão 8
 
 Marcação de caractere, uso de tinta invisível, perfurações, fita corretiva de máquina de escrever, entre outras técnicas caracterizam:
 
@@ -254,7 +270,7 @@ c. Esteganografia.
 d. Criptoanálise.
 e. Criptografia.
 
-### (p2_2022) Questão 11
+### Questão 11
 
 Analise as afirmações abaixo e marque a alternativa correta.
 
@@ -272,7 +288,11 @@ d. Apenas II) e III) estão corretas
 
 e. Apenas I) está correta
 
-### (p2_2022) Questão 15 (Aberta)
+Comentários:
+(i) e (ii) Correto
+(iii) Serviços da camada de aplicação do modelo TCP/IP são baseados nos modelos P2P e Cliente/servidor. Por outro lado, as instâncias da camada de transporte são entidades pares, na qual nenhuma delas assume o papel de cliente ou servidor
+
+### Questão 15 (Aberta)
 
 Analise a configuração de rede a seguir, distribua os endereços e mostre as tabelas de rota dos equipamentos X, Y, R e W, de modo que haja conectividade (a nível de camada IP entre todos esses equipamentos e também com a Internet). Considerar ainda, que as conexões de R com os roteadores X, Y e Z, devem ser resolvidas com desperdício mínimo de endereços, da faixa 192.168.100.0 (usar máscara de sub- rede nesses enlaces).
 
@@ -285,6 +305,33 @@ A resposta deve ser feita nos moldes da tabela a seguir:
 
 ![](./assets/2411.png)
 
-### (p2_2022-3) Questão 2 (Aberta)
+### Questão 2 (Aberta)
 
 Um aluno entra no computador do laboratório e digita o seguinte endereço no browser: <http://ohio.infoway.vista.edu/chamex.html>. Explique como o servidor DNS do laboratório consegue descobrir o endereço IP da máquina que contém o arquivo chamex.html. Na resposta, apontar os hosts DNS envolvidos e explicar passo a passo como ocorre a resolução de endereços nesse caso.
+
+### Gabarito
+
+Questão 15 (Aberta)
+
+![](./p2_2022-7.png)
+
+Questão 2 (Aberta)
+
+![](./assets/5958.png)
+
+- 1 = Apenas a afirmação III está correta
+- 2 = Disponibilidade;
+- 3 = Nenhuma das alternativas apresentada é correta.
+- 4 = Uma forma da Petrobrás garantir a confidencialidade dos dados, seria a utilização de mecanismos
+- 5 = Considerando desperdício mínimo de endereços em cada sub-rede, a máscara adequada para a rede #2 desperdiçará mais endereços do que a rede #3.
+- 6 = Apenas a alternativa (ii) está correta
+- 7 = Apenas (i) e (iii) são falsas
+- 8 = Criptoanálise é o estudo de meios para "quebrar" um algoritmo de criptografia ou criptograma.
+- 10 = Todas estão incorretas
+- 11 =  Todas estão corretas
+- 12 =  A soma dos atrasos dos vizinhos em relação a D é superior a 20
+- 13 =  Somente II e III são falsas.
+- 14 =  Alteração de partes de uma mensagem legítima; Obter o aplicativo para dispositivos móveis
+- 4 = Somente I e III são falsas.
+- 8 = Esteganografia.
+- 11 = Apenas (i) e (ii) estão corretas E Apenas (i) e (iii) estão corretas

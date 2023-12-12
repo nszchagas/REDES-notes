@@ -1,10 +1,16 @@
 #!/bin/bash
 
-files=$@
-dest="$(pwd)/txt_from_pdf/"
-mkdir -p $dest
-for f in $files; do
-	echo $f
-	python pdf_to_txt.py $f $dest
+dest="$(pwd)/p2"
+# mkdir -p $dest
+# for f in ./p2*.pdf; do
+# 	echo $f $dest
+# 	python pdf_to_txt.py $f $dest
+# done
+
+echo "" >$dest/lista2.md
+
+for f in $dest/*.txt; do
+	name=$(basename -- $f)
+	echo $name	
+	echo -e "## ${name/\.txt/}\n $(cat $f) \n" >> $dest/lista2.md
 done
- 

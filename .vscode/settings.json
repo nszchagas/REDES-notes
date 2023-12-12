@@ -2,7 +2,7 @@
   "pasteImage.basePath": "${currentFileDir}",
   "pasteImage.path": "${currentFileDir}/assets",
   "pasteImage.defaultName": "mmss",
-  "pasteImage.insertPattern": "\n${imageSyntaxPrefix}.${imageFilePath}${imageSyntaxSuffix}\n<fig></fig>\n",
+  "pasteImage.insertPattern": "${imageSyntaxPrefix}.${imageFilePath}${imageSyntaxSuffix}\n",
   "cSpell.words": ["Anotacionais", "COCOMO", "Codeforces", "Ishikawa", "Mbaud"],
   "markdownlint.config": {
     "MD033": false,
