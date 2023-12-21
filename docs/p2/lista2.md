@@ -335,3 +335,5 @@ Questão 2 (Aberta)
 - 4 = Somente I e III são falsas.
 - 8 = Esteganografia.
 - 11 = Apenas (i) e (ii) estão corretas E Apenas (i) e (iii) estão corretas
+
+
