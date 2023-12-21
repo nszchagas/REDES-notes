@@ -1,0 +1,1526 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../../websocket_lab/relatorio/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+    
+    
+      
+        <title>HTTP - Fundamentos de Redes de Computadores</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#protocolo-http" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Fundamentos de Redes de Computadores" class="md-header__button md-logo" aria-label="Fundamentos de Redes de Computadores" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12m0 2h-5v8l-2.5-2.25L8 12V4H6v16h12V4Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fundamentos de Redes de Computadores
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HTTP
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nszchagas/REDES-notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    REDES-notes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fundamentos de Redes de Computadores" class="md-nav__button md-logo" aria-label="Fundamentos de Redes de Computadores" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12m0 2h-5v8l-2.5-2.25L8 12V4H6v16h12V4Z"/></svg>
+
+    </a>
+    Fundamentos de Redes de Computadores
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nszchagas/REDES-notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    REDES-notes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    HTTP
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    HTTP
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#referencial-teorico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referencial Teórico
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Referencial Teórico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arquitetura-cliente-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arquitetura Cliente-Servidor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arquitetura Cliente-Servidor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cliente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cliente
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Servidor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comunicacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comunicação
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comunicação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisicao-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requisição (Request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resposta-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resposta (Response)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-protocolo-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      O Protocolo HTTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versoes-do-protocolo-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versões do Protocolo HTTP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Versões do Protocolo HTTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http11" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/1.1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http2" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http3" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pratica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prática
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prática">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-do-ambiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Ambiente
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração do Ambiente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#orquestracao-dos-servicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Orquestração dos serviços
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracoes-do-servidor-nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurações do servidor (Nginx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracoes-do-cliente-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurações do cliente (debian)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Execução
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resultados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resultados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http11_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/1.1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideracoes-finais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considerações Finais
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referências
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../websocket_lab/relatorio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WebSocket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Listas
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Listas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../p2/lista2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lista 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#referencial-teorico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referencial Teórico
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Referencial Teórico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arquitetura-cliente-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arquitetura Cliente-Servidor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arquitetura Cliente-Servidor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cliente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cliente
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Servidor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comunicacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comunicação
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comunicação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisicao-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requisição (Request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resposta-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resposta (Response)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-protocolo-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      O Protocolo HTTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versoes-do-protocolo-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versões do Protocolo HTTP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Versões do Protocolo HTTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http11" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/1.1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http2" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http3" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pratica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prática
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prática">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-do-ambiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Ambiente
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração do Ambiente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#orquestracao-dos-servicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Orquestração dos serviços
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracoes-do-servidor-nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurações do servidor (Nginx)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracoes-do-cliente-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurações do cliente (debian)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Execução
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resultados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resultados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http11_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/1.1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideracoes-finais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considerações Finais
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referências
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="protocolo-http">Protocolo HTTP</h1>
+<table>
+<thead>
+<tr>
+<th>Identificação</th>
+<th>-</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aluno</td>
+<td>Nicolas Chagas Souza</td>
+</tr>
+<tr>
+<td>Matrícula</td>
+<td>200042327</td>
+</tr>
+<tr>
+<td>Disciplina</td>
+<td>Fundamentos de Redes de Computadores</td>
+</tr>
+<tr>
+<td>Turma</td>
+<td>01</td>
+</tr>
+</tbody>
+</table>
+<h2 id="referencial-teorico">Referencial Teórico</h2>
+<p>O protocolo HTTP encontra-se na camada de aplicação dos modelos TCP/IP e OSI.</p>
+<p><img alt="" src="../assets/osi.png" />
+<fig>Modelo OSI. (Fonte: freeCodeCamp [1]) </fig></p>
+<h3 id="arquitetura-cliente-servidor">Arquitetura Cliente-Servidor</h3>
+<h4 id="cliente">Cliente</h4>
+<ul>
+<li>Dispositivo ou aplicativo que solicita serviços ou recursos.</li>
+<li>Geralmente um navegador web, mas pode ser qualquer aplicativo que faça requisições a servidores.</li>
+</ul>
+<h4 id="servidor">Servidor</h4>
+<ul>
+<li>Dispositivo ou programa que fornece serviços ou recursos em resposta às solicitações do cliente.</li>
+<li>Pode hospedar sites, aplicativos, ou dados.</li>
+</ul>
+<h4 id="comunicacao">Comunicação</h4>
+<p><img alt="" src="../assets/3510.png" />
+<fig>Arquitetura da web. (Fonte: Tanenbaum [3])</fig></p>
+<h5 id="requisicao-request">Requisição (Request)</h5>
+<ul>
+<li>O cliente envia uma requisição ao servidor para obter informações ou realizar uma ação.</li>
+<li>Utiliza o protocolo HTTP para estruturar e enviar a requisição.</li>
+</ul>
+<h5 id="resposta-response">Resposta (Response)</h5>
+<ul>
+<li>O servidor processa a requisição e envia uma resposta de volta ao cliente.</li>
+<li>A resposta contém os dados solicitados ou informações sobre a execução da ação.</li>
+</ul>
+<p><img alt="" src="../assets/5859.png" />
+<fig>Arquitetura Cliente-Servidor. (Fonte: MDN [2])</fig></p>
+<h3 id="o-protocolo-http">O Protocolo HTTP</h3>
+<ul>
+<li>Desenvolvido por Tim Berners-Lee entre 1989 e 1991, no CERN (Organização Europeia para a Pesquisa Nuclear), o HTTP é o protocolo subjacente à World Wide Web.</li>
+<li>Concluído até o final de 1990, marcando o início oficial da World Wide Web em agosto de 1991.</li>
+<li>Define as regras para a comunicação entre cliente e servidor na web.</li>
+<li>
+<p>Permite a transferência de documentos hipertexto, como páginas web.</p>
+</li>
+<li>
+<p>Requisições e respostas HTTP têm um formato específico com cabeçalhos e, opcionalmente, um corpo com dados.</p>
+</li>
+</ul>
+<p><img alt="" src="../assets/1312.png" />
+<fig>Alguns cabeçalhos HTTP. (Fonte: Tanenbaum [3])</fig></p>
+<ul>
+<li>Cada requisição é independente das anteriores, sem armazenamento de estado entre transações (<em>stateless</em>).</li>
+<li>Define diferentes métodos, como <code>GET</code> para obter dados, <code>POST</code> para enviar dados ao servidor, etc.</li>
+</ul>
+<p><img alt="" src="../assets/1035.png" />
+<fig>Métodos HTTP. (Fonte: Tanenbaum [3])</fig></p>
+<ul>
+<li>A versão do HTTP, o código de status e a frase de motivo acompanham as respostas na linha de status.</li>
+<li>Códigos de status (números de 3 dígitos) acompanhados de frases de motivo resumem o significado do código.</li>
+</ul>
+<p><img alt="" src="../assets/1141.png" />
+<fig>Códigos de status. (Fonte: Tanenbaum [3])</fig></p>
+<ul>
+<li>Descrições fornecidas na primeira linha da resposta, conhecida como linha de status.</li>
+</ul>
+<h3 id="versoes-do-protocolo-http">Versões do Protocolo HTTP</h3>
+<p>A primeira versão do HTTP (0.9) permitia apenas que fossem recebidas informações de um servidor apenas com a operação <code>GET</code>, e a troca de informações era permitida apenas no formato ASCII.</p>
+<h4 id="http11">HTTP/1.1</h4>
+<p>A versão 1.1 do protocolo foi lançada em 1997, e adicionou à versão anterior (1.0) diversas extensões, dentre as quais destacam-se, conforme apontado em <a href="#referências">Baeldung [5]</a>:</p>
+<ul>
+<li>Cabeçalho Host:</li>
+<li>No HTTP 1.0, não era oficialmente exigido, mas no HTTP 1.1, sua inclusão é requerida pela especificação.</li>
+<li>Importante para rotear mensagens por servidores proxy, permitindo distinguir domínios que compartilham o mesmo IP.</li>
+<li>Conexões Persistentes:</li>
+<li>No HTTP 1.0, cada par de requisição/resposta requer a abertura de uma nova conexão.</li>
+<li>No HTTP 1.1, é possível executar várias requisições usando uma única conexão.</li>
+<li>Status de Continue:</li>
+<li>Introduzido para evitar que servidores recusem requisições inviáveis.</li>
+<li>Os clientes podem enviar apenas os cabeçalhos da requisição primeiro e verificar se recebem um código de status de Continue (100).</li>
+<li>Novos Métodos:</li>
+<li>Além dos métodos já disponíveis no HTTP 1.0, a versão 1.1 adicionou seis métodos extras: PUT, PATCH, DELETE, CONNECT, TRACE e OPTIONS.</li>
+<li>Outras Melhorias Introduzidas na Versão 1.1 do HTTP:</li>
+<li>Compressão e Descompressão.</li>
+<li>Suporte a Vários Idiomas.</li>
+<li>Transferências de Intervalo de Bytes.</li>
+</ul>
+<h4 id="http2">HTTP/2</h4>
+<p>A versão 2 do protocolo foi lançada em 2015, e teve como principal foco a melhora no desempenho do protocolo, principalmente por torná-lo um protocolo binário, no qual os dados trafegam na forma binária para diminuir o overhead. As principais alterações, conforme apontado em <a href="#referências">Baeldung [5]</a>, foram:</p>
+<ul>
+<li><strong>Multiplexação de Requisições:</strong></li>
+<li>
+<p>O HTTP 1.1 é um protocolo sequencial, permitindo enviar apenas uma requisição por vez, já no HTTP 2.0, é possível enviar requisições e receber respostas de forma assíncrona, permitindo várias requisições simultâneas usando uma única conexão.</p>
+</li>
+<li>
+<p><strong>Priorização de Requisições:</strong></p>
+</li>
+<li>
+<p>No HTTP 2.0, é possível atribuir uma priorização numérica a um conjunto de requisições, o que permite explicitar a ordem desejada para as respostas, como obter o CSS de uma página da web antes de seus arquivos JS.</p>
+</li>
+<li>
+<p><strong>Compressão Automática:</strong></p>
+</li>
+<li>
+<p>Ao contrário do HTTP 1.1, onde a compressão de requisições e respostas deve ser explicitamente solicitada, o HTTP 2.0 realiza automaticamente a compressão com GZip.</p>
+</li>
+<li>
+<p><strong>Reset de Conexão:</strong></p>
+</li>
+<li>
+<p>Permite fechar uma conexão entre servidor e cliente por algum motivo, abrindo imediatamente uma nova.</p>
+</li>
+<li>
+<p><strong>Server Push:</strong></p>
+</li>
+<li>Introduz uma funcionalidade para evitar que o servidor receba muitas requisições, de forma que o servidor tenta prever os recursos que serão solicitados em breve e proativamente envia esses recursos para o cache do cliente.</li>
+</ul>
+<h4 id="http3">HTTP/3</h4>
+<p>Ao contrário das versões anteriores, que eram documentos do IETF (<em>Internet Engineering Task Force</em>) conhecidos como RFC (<em>Request For Comments</em>), o HTTP 3.0 é um <em>Internet-Draft</em>. O primeiro rascunho foi publicado em 2020. As inovações fornecidas nessa última alteração visam aumentar a segurança por meio de criptografia, como o fato de o HTTP 3.0 sempre criar conexões criptografadas, o que se assemelha à prática de sempre usar HTTPS na atual versão HTTP 2.0.</p>
+<p>O principal diferencial entre HTTP 2.0 e HTTP 3.0 reside no protocolo de transporte utilizado, o HTTP 2.0 emprega conexões TCP, com ou sem TLS (para HTTPS e HTTP) enquanto o HTTP 3.0, por sua vez, é projetado sobre o protocolo QUIC (Quick UDP Internet Connections) -  um protocolo de camada de transporte com multiplexação nativa e criptografia integrada, ele oferece um processo de handshake rápido e é capaz de mitigar problemas de latência em conexões com perda de pacotes e baixa velocidade. A utilização do QUIC traz benefícios potenciais, como uma rápida negociação de conexão e eficiência na mitigação de latência em conexões problemáticas.</p>
+<h2 id="pratica">Prática</h2>
+<p>O experimento será realizado com dois containers docker, sendo uma imagem de nginx usada para o lado servidor e uma de linux (debian) para o lado cliente.</p>
+<h3 id="configuracao-do-ambiente">Configuração do Ambiente</h3>
+<h4 id="orquestracao-dos-servicos">Orquestração dos serviços</h4>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">docker-compose.yml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">  </span><span class="c1"># Servidor, responsável por servir conteúdo estático.</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">  </span><span class="nt">nginx</span><span class="p">:</span><span class="w"> </span><span class="c1"># O nome do serviço serve como DNS para acessar o serviço, com http://nginx ou https://nginx</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx.Dockerfile</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;80:80&quot;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;443:443&quot;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./nginx.conf:/etc/nginx/nginx.conf</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net-http-lab</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">  </span><span class="nt">debian</span><span class="p">:</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debian</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debian.Dockerfile</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/bin/bash /tmp/get_http</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./get_http:/tmp/get_http</span><span class="w">      </span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net-http-lab</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="nt">networks</span><span class="p">:</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="w">  </span><span class="nt">net-http-lab</span><span class="p">:</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net-redes</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="configuracoes-do-servidor-nginx">Configurações do servidor (Nginx)</h4>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">nginx.Dockerfile</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">nginx:latest</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="k">COPY</span><span class="w"> </span>nginx.conf<span class="w"> </span>/etc/nginx/conf.d/
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="c"># Gera um certificado ssl para testes, para acesso às páginas via https.</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="k">RUN</span><span class="w"> </span>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span>-keyout<span class="w"> </span>/etc/nginx/conf.d/mock.key<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span>-out<span class="w"> </span>/etc/nginx/conf.d/mock.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">80</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">443</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">nginx.conf</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>events{} 
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a>http {
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a>server {
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a>    listen 80;
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a>    server_name localhost;
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a>    location / {
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a>        return 200 &quot;Hello World! Esse conteúdo foi requisitado via HTTP/1.1&quot;;
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a>    }
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a>}
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a>server {
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a>    listen 443 ssl http2;
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a>    server_name localhost;
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a>    ssl_certificate /etc/nginx/conf.d/mock.crt;
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a>    ssl_certificate_key /etc/nginx/conf.d/mock.key;
+<a id="__codelineno-2-18" name="__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19"></a>    location / {
+<a id="__codelineno-2-20" name="__codelineno-2-20"></a>        return 200 &quot;Hello World! Esse conteúdo foi requisitado via HTTP/2&quot;;
+<a id="__codelineno-2-21" name="__codelineno-2-21"></a>    }
+<a id="__codelineno-2-22" name="__codelineno-2-22"></a>}
+<a id="__codelineno-2-23" name="__codelineno-2-23"></a>
+<a id="__codelineno-2-24" name="__codelineno-2-24"></a>}
+</code></pre></div></td></tr></table></div>
+<h4 id="configuracoes-do-cliente-debian">Configurações do cliente (debian)</h4>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">debian.Dockerfile</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">debian:latest</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c"># Instala as dependências para buildar o curl para os testes (última versão para usar o http3)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span>build-essential<span class="w"> </span>libpcre3-dev<span class="w"> </span>zlib1g-dev<span class="w"> </span>libssl-dev<span class="w"> </span>wget<span class="w"> </span>checkinstall<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">    </span>libcurl4-openssl-dev<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">    </span>nghttp2<span class="w"> </span>libnghttp2-dev
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="k">RUN</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp/curl_compile
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/tmp/curl_compile</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="k">RUN</span><span class="w"> </span>wget<span class="w"> </span>https://curl.se/download/curl-7.80.0.tar.gz<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\ </span>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">    </span>tar<span class="w"> </span>-xzvf<span class="w"> </span>curl-7.80.0.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>curl-7.80.0<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">    </span>/bin/bash<span class="w"> </span>./configure<span class="w"> </span>--with-ssl<span class="w"> </span>--with-nghttp2<span class="w"> </span>--enable-ssl<span class="w"> </span>--enable-http2<span class="w"> </span>--with-quiche<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">    </span><span class="o">&amp;&amp;</span><span class="w">  </span>make<span class="w"> </span>clean<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w">  </span>make<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w">  </span>make<span class="w"> </span>install<span class="w"> </span>
+</code></pre></div></td></tr></table></div>
+<p>O seguinte script será executado no início do container, para realizar as conexões ao servidor utilizando as versões especificadas do protocolo HTTP.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">get_http</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1"># Curl flags: --include: Inclui o header da resposta na saída.</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;curl --include --http1.1 -X GET http://nginx&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Testando HTTP/1.1 com o comando curl (</span><span class="nv">$cmd</span><span class="s2">):&quot;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="nv">resultado</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nv">$cmd</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Resultado:\n</span><span class="nv">$resultado</span><span class="s2">\n&quot;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="c1"># A flag --insecure é passada para que o curl não verifique os certificados ssl (o usado é self-signed).</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;curl --include --http2 -X GET --insecure https://nginx&quot;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Testando HTTP/2 com o comando curl (</span><span class="nv">$cmd</span><span class="s2">):&quot;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="nv">resultado</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nv">$cmd</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Resultado:\n</span><span class="nv">$resultado</span><span class="s2">\n&quot;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;curl --include --http3 -X GET --insecure https://nginx&quot;</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Testando HTTP/3 com o comando curl (</span><span class="nv">$cmd</span><span class="s2">):&quot;</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18"></a><span class="nv">resultado</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nv">$cmd</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Resultado:\n</span><span class="nv">$resultado</span><span class="s2">\n&quot;</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="execucao">Execução</h3>
+<p>Para executar o experimento, basta executar o comando a seguir na pasta onde encontram-se os arquivos de configuração:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># A flag -d indica que os containers rodaram em modo detached do terminal.</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>
+</code></pre></div>
+<p>Para verificar os resultados do experimento, verifique os logs do container do cliente, rodando o comando:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>logs<span class="w"> </span>debian<span class="w"> </span>
+</code></pre></div>
+<h3 id="resultados">Resultados</h3>
+<h4 id="http11_1">HTTP/1.1</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Testando HTTP/1.1 com o comando curl (curl --include --http1.1 -X GET http://nginx):
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Resultado:
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>HTTP/1.1 200 OK
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Server: nginx/1.25.3
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Date: Mon, 20 Nov 2023 15:50:37 GMT
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Content-Type: text/plain
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>Content-Length: 56
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>Connection: keep-alive
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>Hello World! Esse conteúdo foi requisitado via HTTP/1.1
+</code></pre></div>
+<h4 id="http2_1">HTTP/2</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Testando HTTP/2 com o comando curl (curl --include --http2 -X GET --insecure https://nginx):
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Resultado:
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>HTTP/2 200 
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>server: nginx/1.25.3
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>date: Mon, 20 Nov 2023 15:50:37 GMT
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>content-type: text/plain
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>content-length: 54
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>Hello World! Esse conteúdo foi requisitado via HTTP/2
+</code></pre></div>
+<h4 id="http3_1">HTTP/3</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Testando HTTP/3 com o comando curl (curl --include --http3 -X GET --insecure &lt;https://nginx&gt;):
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Resultado:
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>curl: option --http3: the installed libcurl version doesn&#39;t support this
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>curl: try &#39;curl --help&#39; for more information
+</code></pre></div>
+<p>Houve um erro, pois a versão utilizada do curl não tem suporte à http3.</p>
+<h2 id="consideracoes-finais">Considerações Finais</h2>
+<p>A seguinte tabela destaca algumas das principais diferenças entre as versões HTTP/1.1, HTTP/2.0 e HTTP/3.0 em relação a diversos aspectos, desde o ano de lançamento até características específicas de cada protocolo.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Característica</strong></th>
+<th><strong>HTTP/1.1</strong></th>
+<th><strong>HTTP/2.0</strong></th>
+<th><strong>HTTP/3.0</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ano de Lançamento</strong></td>
+<td>1997</td>
+<td>2015</td>
+<td>2020</td>
+</tr>
+<tr>
+<td><strong>Tipo de Documento</strong></td>
+<td>RFC (Request For Comments)</td>
+<td>RFC</td>
+<td>Internet-Draft</td>
+</tr>
+<tr>
+<td><strong>Protocolo de Transporte</strong></td>
+<td>TCP (com ou sem TLS para HTTPS)</td>
+<td>TCP (com ou sem TLS para HTTPS)</td>
+<td>QUIC</td>
+</tr>
+<tr>
+<td><strong>Multiplexação de Requisições</strong></td>
+<td>Não suporta; sequencial</td>
+<td>Sim; assíncrono</td>
+<td>Sim; assíncrono</td>
+</tr>
+<tr>
+<td><strong>Priorização de Requisições</strong></td>
+<td>Não suporta</td>
+<td>Sim</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td><strong>Compressão Automática</strong></td>
+<td>Não</td>
+<td>Sim</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td><strong>Conexões Persistentes</strong></td>
+<td>Possíveis, mas com limitações</td>
+<td>Sim</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td><strong>Segurança da Conexão</strong></td>
+<td>Requer explicitamente (HTTP) ou por padrão (HTTPS)</td>
+<td>Requer explicitamente (HTTP) ou por padrão (HTTPS)</td>
+<td>Sempre criptografada</td>
+</tr>
+<tr>
+<td><strong>Protocolo Binário</strong></td>
+<td>Não</td>
+<td>Sim</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td><strong>Multiplexação de Streams</strong></td>
+<td>Não aplicável</td>
+<td>Sim</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td><strong>Criação de Conexões</strong></td>
+<td>Sem funcionalidade específica</td>
+<td>Requer handshake</td>
+<td>Rápida negociação de conexão (QUIC)</td>
+</tr>
+<tr>
+<td><strong>Server Push</strong></td>
+<td>Não suporta</td>
+<td>Sim</td>
+<td>Sim (através do QUIC)</td>
+</tr>
+<tr>
+<td><strong>Projeto de Tim Berners-Lee</strong></td>
+<td>Não previu inicialmente como um meio somente leitura</td>
+<td>Estendido para permitir autoria (WebDAV)</td>
+<td>Projeto inicial incluía autoria (WebDAV)</td>
+</tr>
+<tr>
+<td><strong>Principais Objetivos Iniciais</strong></td>
+<td>Transferência de documentos hipertexto</td>
+<td>Melhorias de desempenho e otimização</td>
+<td>Aprimoramentos de desempenho e segurança (QUIC)</td>
+</tr>
+</tbody>
+</table>
+<p><tab> Comparativo entre versões do HTTP. </tab></p>
+<p>A execução do laboratório mostrou as possibilidades de utilizar diferentes versões do protocolo HTTP entre cliente e servidor, mas não foi possível testar a versão HTTP/3.</p>
+<h2 id="referencias">Referências</h2>
+<p>[1] FreeCodeCamp. <strong>An Introduction to HTTP: Understanding the Open Systems Interconnection Model</strong>. Disponível em: <a href="https://www.freecodecamp.org/news/an-introduction-to-http-understanding-the-open-systems-interconnection-model-9dd06233d30e/">https://www.freecodecamp.org/news/an-introduction-to-http-understanding-the-open-systems-interconnection-model-9dd06233d30e/</a>. Acesso em: 20/11/2023. <br/>
+[2] Mozilla Developer Network (MDN). <strong>Client-Server Overview</strong>. Disponível em: <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Client-Server_overview">https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Client-Server_overview</a>. Acesso em: 20/11/2023. <br/>
+[3] TANENBAUM, Andrew S.; WETHERALL, David J. <strong>Computer Networks</strong>. 5th ed. [Local de Publicação]: Editora, Ano. <br/>
+[4] Mozilla Developer Network (MDN). <strong>HTTP Basics: Evolution of HTTP</strong>. Disponível em: <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP">https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP</a>. Acesso em: 20/11/2023. <br/>
+[5] Baeldung. <strong>HTTP Versions</strong>. Disponível em: <a href="https://www.baeldung.com/cs/http-versions">https://www.baeldung.com/cs/http-versions</a>. Acesso em: 20/11/2023. <br/>
+[6] World Wide Web Consortium (W3C). <strong>History of the World Wide Web</strong>. Disponível em: <a href="https://www.w3.org/Protocols/History.html">https://www.w3.org/Protocols/History.html</a>. Acesso em: 20/11/2023. <br/>
+[7] IBM. <strong>CICS Transaction Server for z/OS</strong>. Disponível em: <a href="https://www.ibm.com/docs/en/cics-ts/5.3?topic=concepts-http-protocol">https://www.ibm.com/docs/en/cics-ts/5.3?topic=concepts-http-protocol</a>. Acesso em: 20/11/2023. <br/>
+[8] TCP/IP Guide. <strong>HTTP Overview, History, Versions, and Standards</strong>. Disponível em: <a href="http://www.tcpipguide.com/free/t_HTTPOverviewHistoryVersionsandStandards.htm">http://www.tcpipguide.com/free/t_HTTPOverviewHistoryVersionsandStandards.htm</a>. Acesso em: 20/11/2023. <br/>
+[9] NGINX. <strong>HTTP Keepalive Connections and Web Performance</strong>. Disponível em: <a href="https://www.nginx.com/resources/wiki/start/topics/examples/full/">https://www.nginx.com/resources/wiki/start/topics/examples/full/</a>. Acesso em: 20/11/2023. <br/></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2023 Nicolas Souza
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["toc.follow", "navigation.expand"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../assets/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Instala dependências para execução correta do script.
+# É necessário ter o pipenv na máquina.
+function setup_venv() {
+  status="$(pipenv verify)" || return 1
+  if ! [[ $status == **up-to-date** ]]; then
+    echo "Instalando dependências do Pipfile."
+    pipenv install
+    clear
+  fi
+}
+
+function main() {
+  # Limpa a console.
+  clear
+
+  setup_venv || return 1
+
+  # Recupera o IP da máquina de forma dinâmica.
+  host=$(hostname -I | awk -F ' ' '{print $1}')
+
+  # Exporta as variáveis que serão recuperadas no script python.
+  export host="$host"
+  export log_level='INFO'
+
+  # Roda com os argumentos ($@).
+  # Esses argumentos são passados para os inputs automaticamente.
+  pipenv run python main "$@"
+}
+
+main "$@" || {
+  echo "Error. Aborting."
+  exit 1
+}

@@ -1,0 +1,1819 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../http_lab/http/">
+      
+      
+        <link rel="next" href="../../p2/lista2/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+    
+    
+      
+        <title>WebSocket - Fundamentos de Redes de Computadores</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#o-procolo-websocket" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Fundamentos de Redes de Computadores" class="md-header__button md-logo" aria-label="Fundamentos de Redes de Computadores" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12m0 2h-5v8l-2.5-2.25L8 12V4H6v16h12V4Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fundamentos de Redes de Computadores
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              WebSocket
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nszchagas/REDES-notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    REDES-notes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fundamentos de Redes de Computadores" class="md-nav__button md-logo" aria-label="Fundamentos de Redes de Computadores" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12m0 2h-5v8l-2.5-2.25L8 12V4H6v16h12V4Z"/></svg>
+
+    </a>
+    Fundamentos de Redes de Computadores
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nszchagas/REDES-notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    REDES-notes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http_lab/http/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTTP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    WebSocket
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    WebSocket
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#referencial-teorico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referencial Teórico
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Referencial Teórico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#socket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Socket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websockets-vs-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSockets vs HTTP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pratica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prática
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prática">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-do-ambiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Ambiente
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração do Ambiente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-do-pipenv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Pipenv
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rodando-o-servico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rodando o Serviço
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codigo-fonte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Código-Fonte
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Código-Fonte">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pacote-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pacote principal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-dos-servidores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração dos Servidores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracoes-dos-clientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurações dos Clientes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modulo-de-utilitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Módulo de Utilitários
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Execução
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execução">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resultados-obtidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resultados Obtidos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideracoes-finais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considerações Finais
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referências
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Listas
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Listas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../p2/lista2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lista 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#referencial-teorico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referencial Teórico
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Referencial Teórico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#socket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Socket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websockets-vs-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSockets vs HTTP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pratica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prática
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prática">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-do-ambiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Ambiente
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração do Ambiente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-do-pipenv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Pipenv
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rodando-o-servico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rodando o Serviço
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codigo-fonte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Código-Fonte
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Código-Fonte">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pacote-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pacote principal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-dos-servidores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração dos Servidores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracoes-dos-clientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurações dos Clientes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modulo-de-utilitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Módulo de Utilitários
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execucao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Execução
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execução">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resultados-obtidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resultados Obtidos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideracoes-finais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considerações Finais
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referências
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="o-procolo-websocket">O Procolo WebSocket</h1>
+<table>
+<thead>
+<tr>
+<th>Identificação</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aluno</td>
+<td>Nicolas Chagas Souza</td>
+</tr>
+<tr>
+<td>Matrícula</td>
+<td>200042327</td>
+</tr>
+<tr>
+<td>Disciplina</td>
+<td>Fundamentos de Redes de Computadores</td>
+</tr>
+<tr>
+<td>Turma</td>
+<td>01</td>
+</tr>
+</tbody>
+</table>
+<h2 id="referencial-teorico">Referencial Teórico</h2>
+<h3 id="socket">Socket</h3>
+<p>Um socket fornece um meio de comunicação entre dois processos (Figura 1), ou seja, uma maneira para que eles possam
+trocar dados entre si ([1]).</p>
+<p><img alt="" src="../assets/socket-drawing.png" /></p>
+<p><fig>Exemplificação de socket entre duas partes comunicantes. (Fonte: Medium [1])</fig></p>
+<p>Geralmente, a comunicação entre dois processos (<code>process A</code> e <code>process B</code>), conforme
+ilustra a Figura 2, é feita pelo uso dos seus sockets (X e Y, respectivamente).</p>
+<p><img alt="" src="../assets/2633.png" />
+<fig>(Fonte: Medium [1])</fig></p>
+<p>Existem dois tipos principais de sockets (Figura 3):</p>
+<ul>
+<li><em>Unix domain sockets</em>: permitem a comunicação entre processos em um mesmo computador (IPC).</li>
+<li><em>Internet domain sockets</em>: permitem a comunicação entre processos em uma mesma rede.</li>
+</ul>
+<p><img alt="" src="../assets/3217.png" />
+<fig>Diferença entre os tipos de socket.(Fonte: Medium [1])</fig></p>
+<h3 id="websocket">WebSocket</h3>
+<p>O protocolo WebSocket permite uma comunicação bidirecional e <em>full-duplex</em> entre um cliente e um servidor. Conforme
+a especificação (RFC 6455 [2]), o protocolo permite a execução de código não confiável, do cliente, em um
+ambiente controlado em um servidor, e visa fornecer um mecanismo para aplicações baseadas em navegadores se
+comunicarem com servidores sem a necessidade de abrir múltiplas conexões HTTP (como o uso de <code>XMLHttpRequest</code>
+ou <code>&lt;iframes&gt;</code>).</p>
+<p>O WebSocket foi construído sobre o protocolo TCP, e permite a comunicação em tempo real, composto
+(Figura 4) por um <em>handshake</em> de abertura, seguido por trocas de mensagens bidirecionais em uma conexão persistente até
+que um dos lados finalize a conexão.</p>
+<p><img alt="" src="../assets/1707.png" />
+<fig>Comunicação cliente servidor via protocolo WebSocket. (Fonte: Wallarm [3])</fig></p>
+<h3 id="websockets-vs-http">WebSockets vs HTTP</h3>
+<p>Os WebSockets são ideais para estabelecer a comunicação entre APIs em contextos que exigem troca contínua e/ou rápida de
+dados, como aplicações de tempo real, jogos e aplicações de chats.</p>
+<p>Entretanto, esse protocolo não deve ser usado quando não há necessidade de troca de dados em tempo real ou de se manter
+a conexão aberta por um longo tempo, sendo o protocolo HTTP mais adequado nesses casos (Figura 5).</p>
+<p><img alt="" src="../assets/1442.png" />
+<fig>Comparativo entre os protocolos HTTP e WebSocket.(Fonte: Wallarm [3])</fig></p>
+<h2 id="pratica">Prática</h2>
+<p>A prática desenvolvida visa identificar a diferença de desempenho, metrificados pelo tempo de resposta, na utilização do
+protocolo WebSocket, em relação ao HTTP, para múltiplas requisições seguidas, simulando uma conversa entre o cliente e o
+servidor, na troca das mensagens: "ping" e "pong".</p>
+<h3 id="configuracao-do-ambiente">Configuração do Ambiente</h3>
+<p>Compõem o experimento dois processos servidores, um HTTP e um WS (WebSocket), e dois processos clientes, HTTP-Client e
+WS-Client. O código-fonte para todos os processos foi escrito em python, com o apoio de um <em>script</em> shell para iniciar e
+configurar os serviços.</p>
+<h4 id="configuracao-do-pipenv">Configuração do Pipenv</h4>
+<div class="highlight"><span class="filename">Pipfile</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[[source]]
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>url = &quot;https://pypi.org/simple&quot;
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>verify_ssl = true
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>name = &quot;pypi&quot;
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>[packages]
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>websockets = &quot;*&quot;
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>websocket-client = &quot;*&quot;
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>requests = &quot;*&quot;
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>[dev-packages]
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>[requires]
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>python_version = &quot;3.11&quot;
+</code></pre></div>
+<h4 id="rodando-o-servico">Rodando o Serviço</h4>
+<p>A configuração do ambiente é feita automaticamente pelo script <code>start</code>, desde que o <code>pipenv</code> esteja instalado na
+máquina. Para
+rodá-lo basta executar o comando <code>chmod+x start &amp;&amp; ./start</code> ou <code>/bin/bash start</code>, na pasta files.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">start</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c1"># Instala dependências para execução correta do script.</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1"># É necessário ter o pipenv na máquina.</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="k">function</span><span class="w"> </span>setup_venv<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">  </span><span class="nv">status</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>pipenv<span class="w"> </span>verify<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span>**up-to-date**<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Instalando dependências do Pipfile.&quot;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span>pipenv<span class="w"> </span>install
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">    </span>clear
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">  </span><span class="k">fi</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="o">}</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="k">function</span><span class="w"> </span>main<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="w">  </span><span class="c1"># Limpa a console.</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="w">  </span>clear
+<a id="__codelineno-1-17" name="__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="w">  </span>setup_venv<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="w">  </span><span class="c1"># Recupera o IP da máquina de forma dinâmica.</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="w">  </span><span class="nv">host</span><span class="o">=</span><span class="k">$(</span>hostname<span class="w"> </span>-I<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="w">  </span><span class="c1"># Exporta as variáveis que serão recuperadas no script python.</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">host</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$host</span><span class="s2">&quot;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">log_level</span><span class="o">=</span><span class="s1">&#39;INFO&#39;</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26"></a>
+<a id="__codelineno-1-27" name="__codelineno-1-27"></a><span class="w">  </span><span class="c1"># Roda com os argumentos ($@).</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28"></a><span class="w">  </span><span class="c1"># Esses argumentos são passados para os inputs automaticamente.</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29"></a><span class="w">  </span>pipenv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>main<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30"></a><span class="o">}</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31"></a>
+<a id="__codelineno-1-32" name="__codelineno-1-32"></a>main<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error. Aborting.&quot;</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35"></a><span class="o">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="codigo-fonte">Código-Fonte</h3>
+<p>O código fonte foi organizado em pacotes python, seguindo a seguinte estrutura:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>├── main
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│   # Pacote destinado aos clientes.
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│   ├── clients 
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│   │   ├── __init__.py
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│   │   ├── http_client.py
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│   │   └── ws_client.py
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│   ├── __init__.py
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│   ├── __main__.py
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│   # Pacote destinado aos servidores.
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>│   ├── servers
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>│   │   ├── http_server.py
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>│   │   ├── __init__.py
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>│   │   └── ws_server.py
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>│   # Pacote com funções utilitárias.
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>│   └── utils
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>│       └── __init__.py
+</code></pre></div>
+<h4 id="pacote-principal">Pacote principal</h4>
+<p>O entrypoint do script encontra-se no arquivo <code>files/main/__main__.py</code>.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">__main.py__</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-3-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-3-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-3-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-3-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-3-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-3-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-3-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-3-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-3-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-3-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-3-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-3-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-3-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-3-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-3-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-3-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-3-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-3-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-3-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-3-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-3-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-3-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-3-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-3-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-3-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-3-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-3-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-3-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-3-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-3-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-3-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-3-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-3-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-3-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-3-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-3-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-3-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-3-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-3-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-3-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-3-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-3-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-3-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-3-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-3-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-3-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-3-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-3-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-3-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-3-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-3-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-3-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-3-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-3-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-3-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-3-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-3-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-3-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-3-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-3-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-3-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-3-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-3-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-3-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-3-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-3-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-3-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-3-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-3-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-3-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-3-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-3-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-3-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-3-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-3-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-3-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-3-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-3-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-3-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-3-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-3-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-3-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-3-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-3-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-3-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-3-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-3-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-3-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-3-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-3-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-3-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-3-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-3-100">100</a></span>
+<span class="normal"><a href="#__codelineno-3-101">101</a></span>
+<span class="normal"><a href="#__codelineno-3-102">102</a></span>
+<span class="normal"><a href="#__codelineno-3-103">103</a></span>
+<span class="normal"><a href="#__codelineno-3-104">104</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">datetime</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="kn">import</span> <span class="nn">sys</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">get_env</span><span class="p">,</span> <span class="n">format_results</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="kn">from</span> <span class="nn">servers</span> <span class="kn">import</span> <span class="n">serve_ws</span><span class="p">,</span> <span class="n">serve_http</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="kn">from</span> <span class="nn">clients</span> <span class="kn">import</span> <span class="n">http_connect</span><span class="p">,</span> <span class="n">ws_connect</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="c1"># Função utilitária para recuperar entrada ou ler dos sys.args</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="k">def</span> <span class="nf">get_input</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a>    <span class="k">global</span> <span class="n">arg</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15"></a>        <span class="n">arg</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16"></a>        <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">arg</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17"></a>    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18"></a>        <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19"></a>
+<a id="__codelineno-3-20" name="__codelineno-3-20"></a>
+<a id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="k">def</span> <span class="nf">get_option</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22"></a>    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23"></a>        <span class="n">get_input</span><span class="p">(</span><span class="s1">&#39;Choose quantity of pings to run [-1 to exit]: &#39;</span><span class="p">))</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24"></a>
+<a id="__codelineno-3-25" name="__codelineno-3-25"></a>
+<a id="__codelineno-3-26" name="__codelineno-3-26"></a><span class="k">def</span> <span class="nf">run_option</span><span class="p">(</span><span class="n">desc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">server</span><span class="p">:</span> <span class="n">Process</span><span class="p">,</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27"></a>               <span class="n">client</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28"></a>    <span class="k">global</span> <span class="n">d</span><span class="p">,</span> <span class="n">pings</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29"></a>    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;qt_pings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pings</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30"></a>    <span class="n">play</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31"></a>
+<a id="__codelineno-3-32" name="__codelineno-3-32"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">server</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting server to </span><span class="si">{</span><span class="n">play</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34"></a>        <span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35"></a>
+<a id="__codelineno-3-36" name="__codelineno-3-36"></a>    <span class="n">c</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+<a id="__codelineno-3-37" name="__codelineno-3-37"></a>
+<a id="__codelineno-3-38" name="__codelineno-3-38"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39"></a>        <span class="sa">f</span><span class="s1">&#39;Starting client to </span><span class="si">{</span><span class="n">play</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s1"> with </span><span class="si">{</span><span class="n">pings</span><span class="si">}</span><span class="s1"> pings.&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40"></a>    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<a id="__codelineno-3-41" name="__codelineno-3-41"></a>
+<a id="__codelineno-3-42" name="__codelineno-3-42"></a>    <span class="n">c</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<a id="__codelineno-3-43" name="__codelineno-3-43"></a>    <span class="n">c</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<a id="__codelineno-3-44" name="__codelineno-3-44"></a>
+<a id="__codelineno-3-45" name="__codelineno-3-45"></a>    <span class="n">end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<a id="__codelineno-3-46" name="__codelineno-3-46"></a>    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-3-47" name="__codelineno-3-47"></a>        <span class="s1">&#39;server&#39;</span><span class="p">:</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-3-48" name="__codelineno-3-48"></a>        <span class="s1">&#39;qt_pings&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;qt_pings&#39;</span><span class="p">],</span>
+<a id="__codelineno-3-49" name="__codelineno-3-49"></a>        <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+<a id="__codelineno-3-50" name="__codelineno-3-50"></a>        <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+<a id="__codelineno-3-51" name="__codelineno-3-51"></a>        <span class="s1">&#39;duration&#39;</span><span class="p">:</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span>
+<a id="__codelineno-3-52" name="__codelineno-3-52"></a>    <span class="p">}</span>
+<a id="__codelineno-3-53" name="__codelineno-3-53"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finished run. Results: </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-54" name="__codelineno-3-54"></a>    <span class="k">return</span> <span class="n">result</span>
+<a id="__codelineno-3-55" name="__codelineno-3-55"></a>
+<a id="__codelineno-3-56" name="__codelineno-3-56"></a>
+<a id="__codelineno-3-57" name="__codelineno-3-57"></a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-3-58" name="__codelineno-3-58"></a>    <span class="k">global</span> <span class="n">d</span>
+<a id="__codelineno-3-59" name="__codelineno-3-59"></a>    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-3-60" name="__codelineno-3-60"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;log_level&#39;</span><span class="p">])</span>
+<a id="__codelineno-3-61" name="__codelineno-3-61"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+<a id="__codelineno-3-62" name="__codelineno-3-62"></a>        <span class="sa">f</span><span class="s1">&#39;Running with args: &#39;</span>
+<a id="__codelineno-3-63" name="__codelineno-3-63"></a>        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-64" name="__codelineno-3-64"></a>    <span class="n">ops</span> <span class="o">=</span> <span class="p">[</span>
+<a id="__codelineno-3-65" name="__codelineno-3-65"></a>        <span class="p">{</span>
+<a id="__codelineno-3-66" name="__codelineno-3-66"></a>            <span class="s1">&#39;desc&#39;</span><span class="p">:</span> <span class="s1">&#39;Play ping pong with WS.&#39;</span><span class="p">,</span>
+<a id="__codelineno-3-67" name="__codelineno-3-67"></a>            <span class="s1">&#39;server&#39;</span><span class="p">:</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">serve_ws</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;WS&#39;</span><span class="p">),</span>
+<a id="__codelineno-3-68" name="__codelineno-3-68"></a>            <span class="s1">&#39;client&#39;</span><span class="p">:</span> <span class="n">ws_connect</span>
+<a id="__codelineno-3-69" name="__codelineno-3-69"></a>        <span class="p">},</span>
+<a id="__codelineno-3-70" name="__codelineno-3-70"></a>        <span class="p">{</span>
+<a id="__codelineno-3-71" name="__codelineno-3-71"></a>            <span class="s1">&#39;desc&#39;</span><span class="p">:</span> <span class="s1">&#39;Play ping pong with HTTP.&#39;</span><span class="p">,</span>
+<a id="__codelineno-3-72" name="__codelineno-3-72"></a>            <span class="s1">&#39;server&#39;</span><span class="p">:</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">serve_http</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;HTTP&#39;</span><span class="p">),</span>
+<a id="__codelineno-3-73" name="__codelineno-3-73"></a>            <span class="s1">&#39;client&#39;</span><span class="p">:</span> <span class="n">http_connect</span>
+<a id="__codelineno-3-74" name="__codelineno-3-74"></a>        <span class="p">},</span>
+<a id="__codelineno-3-75" name="__codelineno-3-75"></a>    <span class="p">]</span>
+<a id="__codelineno-3-76" name="__codelineno-3-76"></a>
+<a id="__codelineno-3-77" name="__codelineno-3-77"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-3-78" name="__codelineno-3-78"></a>        <span class="k">global</span> <span class="n">pings</span>
+<a id="__codelineno-3-79" name="__codelineno-3-79"></a>        <span class="n">pings</span> <span class="o">=</span> <span class="n">get_option</span><span class="p">()</span>
+<a id="__codelineno-3-80" name="__codelineno-3-80"></a>        <span class="k">while</span> <span class="n">pings</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+<a id="__codelineno-3-81" name="__codelineno-3-81"></a>            <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
+<a id="__codelineno-3-82" name="__codelineno-3-82"></a>                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run_option</span><span class="p">(</span><span class="o">**</span><span class="n">op</span><span class="p">))</span>
+<a id="__codelineno-3-83" name="__codelineno-3-83"></a>            <span class="n">pings</span> <span class="o">=</span> <span class="n">get_option</span><span class="p">()</span>
+<a id="__codelineno-3-84" name="__codelineno-3-84"></a>
+<a id="__codelineno-3-85" name="__codelineno-3-85"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-3-86" name="__codelineno-3-86"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<a id="__codelineno-3-87" name="__codelineno-3-87"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<a id="__codelineno-3-88" name="__codelineno-3-88"></a>    <span class="k">finally</span><span class="p">:</span>
+<a id="__codelineno-3-89" name="__codelineno-3-89"></a>        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">]</span>
+<a id="__codelineno-3-90" name="__codelineno-3-90"></a>                  <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ops</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()]:</span>
+<a id="__codelineno-3-91" name="__codelineno-3-91"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Stopping process: </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-92" name="__codelineno-3-92"></a>            <span class="n">s</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+<a id="__codelineno-3-93" name="__codelineno-3-93"></a>        <span class="k">return</span> <span class="n">results</span>
+<a id="__codelineno-3-94" name="__codelineno-3-94"></a>
+<a id="__codelineno-3-95" name="__codelineno-3-95"></a>
+<a id="__codelineno-3-96" name="__codelineno-3-96"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<a id="__codelineno-3-97" name="__codelineno-3-97"></a>    <span class="n">pings</span> <span class="o">=</span> <span class="mi">50</span>
+<a id="__codelineno-3-98" name="__codelineno-3-98"></a>    <span class="n">arg</span> <span class="o">=</span> <span class="mi">1</span>
+<a id="__codelineno-3-99" name="__codelineno-3-99"></a>    <span class="n">d</span> <span class="o">=</span> <span class="n">get_env</span><span class="p">()</span>
+<a id="__codelineno-3-100" name="__codelineno-3-100"></a>    <span class="n">rs</span> <span class="o">=</span> <span class="n">main</span><span class="p">()</span>
+<a id="__codelineno-3-101" name="__codelineno-3-101"></a>    <span class="n">table</span> <span class="o">=</span> <span class="n">format_results</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+<a id="__codelineno-3-102" name="__codelineno-3-102"></a>
+<a id="__codelineno-3-103" name="__codelineno-3-103"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;report.md&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">report</span><span class="p">:</span>
+<a id="__codelineno-3-104" name="__codelineno-3-104"></a>        <span class="n">report</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">table</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="configuracao-dos-servidores">Configuração dos Servidores</h4>
+<p>Os clientes encontram-se no módulo <code>files/main/servers</code>.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">servers/http_server.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span>
+<span class="normal"><a href="#__codelineno-4-20">20</a></span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span>
+<span class="normal"><a href="#__codelineno-4-22">22</a></span>
+<span class="normal"><a href="#__codelineno-4-23">23</a></span>
+<span class="normal"><a href="#__codelineno-4-24">24</a></span>
+<span class="normal"><a href="#__codelineno-4-25">25</a></span>
+<span class="normal"><a href="#__codelineno-4-26">26</a></span>
+<span class="normal"><a href="#__codelineno-4-27">27</a></span>
+<span class="normal"><a href="#__codelineno-4-28">28</a></span>
+<span class="normal"><a href="#__codelineno-4-29">29</a></span>
+<span class="normal"><a href="#__codelineno-4-30">30</a></span>
+<span class="normal"><a href="#__codelineno-4-31">31</a></span>
+<span class="normal"><a href="#__codelineno-4-32">32</a></span>
+<span class="normal"><a href="#__codelineno-4-33">33</a></span>
+<span class="normal"><a href="#__codelineno-4-34">34</a></span>
+<span class="normal"><a href="#__codelineno-4-35">35</a></span>
+<span class="normal"><a href="#__codelineno-4-36">36</a></span>
+<span class="normal"><a href="#__codelineno-4-37">37</a></span>
+<span class="normal"><a href="#__codelineno-4-38">38</a></span>
+<span class="normal"><a href="#__codelineno-4-39">39</a></span>
+<span class="normal"><a href="#__codelineno-4-40">40</a></span>
+<span class="normal"><a href="#__codelineno-4-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">http.server</span> <span class="kn">import</span> <span class="n">BaseHTTPRequestHandler</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">socketserver</span> <span class="kn">import</span> <span class="n">TCPServer</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">http_logger</span> <span class="k">as</span> <span class="n">logger</span><span class="p">,</span> <span class="n">get_reply</span><span class="p">,</span> <span class="n">str_from_header</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="c1"># Classe que recebe e responde às requisições HTTP, com métodos GET e POST</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="c1"># implementados.</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="k">class</span> <span class="nc">HTTPHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_log_request_info</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s1">&#39;Content-type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Hello, HTTP!&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17"></a>    <span class="k">def</span> <span class="nf">do_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_log_request_info</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19"></a>        <span class="c1"># Recupera a quantidade de caracteres para ler do quadro</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20"></a>        <span class="c1"># enviado.</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21"></a>        <span class="n">content_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">))</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23"></a>        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24"></a>            <span class="n">content_length</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received POST data: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s1">&#39;Content-type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">get_reply</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30"></a>
+<a id="__codelineno-4-31" name="__codelineno-4-31"></a>    <span class="k">def</span> <span class="nf">_log_request_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33"></a>            <span class="sa">f</span><span class="s1">&#39;Method: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">. Request headers: &#39;</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34"></a>            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">str_from_header</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35"></a>
+<a id="__codelineno-4-36" name="__codelineno-4-36"></a>
+<a id="__codelineno-4-37" name="__codelineno-4-37"></a><span class="k">def</span> <span class="nf">serve_http</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">http_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38"></a>    <span class="n">httpd</span> <span class="o">=</span> <span class="n">TCPServer</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">http_port</span><span class="p">),</span> <span class="n">HTTPHandler</span><span class="p">)</span>
+<a id="__codelineno-4-39" name="__codelineno-4-39"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40"></a>        <span class="sa">f</span><span class="s1">&#39;Starting HTTP server at port: </span><span class="si">{</span><span class="n">http_port</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-41" name="__codelineno-4-41"></a>    <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">servers/ws_server.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span>
+<span class="normal"><a href="#__codelineno-5-24">24</a></span>
+<span class="normal"><a href="#__codelineno-5-25">25</a></span>
+<span class="normal"><a href="#__codelineno-5-26">26</a></span>
+<span class="normal"><a href="#__codelineno-5-27">27</a></span>
+<span class="normal"><a href="#__codelineno-5-28">28</a></span>
+<span class="normal"><a href="#__codelineno-5-29">29</a></span>
+<span class="normal"><a href="#__codelineno-5-30">30</a></span>
+<span class="normal"><a href="#__codelineno-5-31">31</a></span>
+<span class="normal"><a href="#__codelineno-5-32">32</a></span>
+<span class="normal"><a href="#__codelineno-5-33">33</a></span>
+<span class="normal"><a href="#__codelineno-5-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">import</span> <span class="nn">asyncio</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="kn">from</span> <span class="nn">websockets</span> <span class="kn">import</span> <span class="n">WebSocketServerProtocol</span><span class="p">,</span> <span class="n">serve</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">ws_logger</span> <span class="k">as</span> <span class="n">logger</span><span class="p">,</span> <span class="n">get_reply</span><span class="p">,</span> <span class="n">str_from_header</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="c1"># Função assíncrona para receber e responder às requisições via</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="c1"># WebSocket.</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">ws_handler</span><span class="p">(</span><span class="n">websocket</span><span class="p">:</span> <span class="n">WebSocketServerProtocol</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a>        <span class="sa">f</span><span class="s1">&#39;Client connected. Request headers: &#39;</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a>        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">str_from_header</span><span class="p">(</span><span class="n">websocket</span><span class="o">.</span><span class="n">request_headers</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13"></a>    <span class="c1"># Mantém a conexão ativa.</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15"></a>        <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16"></a>            <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received data: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18"></a>            <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">get_reply</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19"></a>
+<a id="__codelineno-5-20" name="__codelineno-5-20"></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Connection terminated. [</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22"></a>            <span class="k">break</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23"></a>
+<a id="__codelineno-5-24" name="__codelineno-5-24"></a>
+<a id="__codelineno-5-25" name="__codelineno-5-25"></a><span class="k">def</span> <span class="nf">serve_ws</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ws_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27"></a>        <span class="sa">f</span><span class="s1">&#39;Starting WebSocket server at port: </span><span class="si">{</span><span class="n">ws_port</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28"></a>
+<a id="__codelineno-5-29" name="__codelineno-5-29"></a>    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">new_event_loop</span><span class="p">()</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">set_event_loop</span><span class="p">(</span><span class="n">loop</span><span class="p">)</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31"></a>
+<a id="__codelineno-5-32" name="__codelineno-5-32"></a>    <span class="n">ws_server</span> <span class="o">=</span> <span class="n">serve</span><span class="p">(</span><span class="n">ws_handler</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">ws_port</span><span class="p">)</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33"></a>    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">ws_server</span><span class="p">)</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34"></a>    <span class="n">loop</span><span class="o">.</span><span class="n">run_forever</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">servers/__init__.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">.http_server</span> <span class="kn">import</span> <span class="n">serve_http</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">.ws_server</span> <span class="kn">import</span> <span class="n">serve_ws</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="configuracoes-dos-clientes">Configurações dos Clientes</h4>
+<p>Os clientes encontram-se no módulo <code>files/main/clients</code>.</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">clients/http_client.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span>
+<span class="normal"><a href="#__codelineno-7-13">13</a></span>
+<span class="normal"><a href="#__codelineno-7-14">14</a></span>
+<span class="normal"><a href="#__codelineno-7-15">15</a></span>
+<span class="normal"><a href="#__codelineno-7-16">16</a></span>
+<span class="normal"><a href="#__codelineno-7-17">17</a></span>
+<span class="normal"><a href="#__codelineno-7-18">18</a></span>
+<span class="normal"><a href="#__codelineno-7-19">19</a></span>
+<span class="normal"><a href="#__codelineno-7-20">20</a></span>
+<span class="normal"><a href="#__codelineno-7-21">21</a></span>
+<span class="normal"><a href="#__codelineno-7-22">22</a></span>
+<span class="normal"><a href="#__codelineno-7-23">23</a></span>
+<span class="normal"><a href="#__codelineno-7-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kn">import</span> <span class="nn">requests</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">client_logger</span> <span class="k">as</span> <span class="n">logger</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a>
+<a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="k">def</span> <span class="nf">http_connect</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">http_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7"></a>                 <span class="n">qt_pings</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Playing ping pong with HTTP.&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9"></a>    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;http://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">http_port</span><span class="si">}</span><span class="s1">&#39;</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10"></a>    <span class="n">sent</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Verifying if server is up...&#39;</span><span class="p">)</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12"></a>    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13"></a>
+<a id="__codelineno-7-14" name="__codelineno-7-14"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">)</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16"></a>
+<a id="__codelineno-7-17" name="__codelineno-7-17"></a>    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qt_pings</span><span class="p">):</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18"></a>        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Ping</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21"></a>        <span class="n">sent</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22"></a>
+<a id="__codelineno-7-23" name="__codelineno-7-23"></a>    <span class="k">assert</span> <span class="n">sent</span> <span class="o">==</span> <span class="n">qt_pings</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sent </span><span class="si">{</span><span class="n">sent</span><span class="si">}</span><span class="s1"> pings. Finishing test.&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">clients/ws_client.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kn">from</span> <span class="nn">websocket</span> <span class="kn">import</span> <span class="n">WebSocket</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">websocket</span> <span class="kn">import</span> <span class="n">create_connection</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">client_logger</span> <span class="k">as</span> <span class="n">logger</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="k">def</span> <span class="nf">ws_connect</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ws_port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a>               <span class="n">qt_pings</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Playing ping pong with WebSocket:&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a>    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;ws://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">ws_port</span><span class="si">}</span><span class="s1">&#39;</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11"></a>    <span class="n">ws</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating connection on </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14"></a>        <span class="n">ws</span><span class="p">:</span> <span class="n">WebSocket</span> <span class="o">=</span> <span class="n">create_connection</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15"></a>        <span class="k">while</span> <span class="ow">not</span> <span class="n">ws</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">ws</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Waiting connection...&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17"></a>    <span class="k">except</span> <span class="ne">ConnectionRefusedError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19"></a>
+<a id="__codelineno-8-20" name="__codelineno-8-20"></a>    <span class="n">sent</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22"></a>        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qt_pings</span><span class="p">):</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23"></a>            <span class="k">if</span> <span class="n">ws</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24"></a>                <span class="n">ws</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ping </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25"></a>                <span class="n">result</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26"></a>                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27"></a>                <span class="n">sent</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28"></a>
+<a id="__codelineno-8-29" name="__codelineno-8-29"></a>        <span class="n">ws</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30"></a>        <span class="k">assert</span> <span class="n">sent</span> <span class="o">==</span> <span class="n">qt_pings</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32"></a>            <span class="sa">f</span><span class="s1">&#39;Sent </span><span class="si">{</span><span class="n">sent</span><span class="si">}</span><span class="s1"> pings. Closing connection.&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-33" name="__codelineno-8-33"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">clients/__init__.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">.http_client</span> <span class="kn">import</span> <span class="n">http_connect</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">.ws_client</span> <span class="kn">import</span> <span class="n">ws_connect</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="modulo-de-utilitarios">Módulo de Utilitários</h4>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">utils/__init__.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span>
+<span class="normal"><a href="#__codelineno-10-12">12</a></span>
+<span class="normal"><a href="#__codelineno-10-13">13</a></span>
+<span class="normal"><a href="#__codelineno-10-14">14</a></span>
+<span class="normal"><a href="#__codelineno-10-15">15</a></span>
+<span class="normal"><a href="#__codelineno-10-16">16</a></span>
+<span class="normal"><a href="#__codelineno-10-17">17</a></span>
+<span class="normal"><a href="#__codelineno-10-18">18</a></span>
+<span class="normal"><a href="#__codelineno-10-19">19</a></span>
+<span class="normal"><a href="#__codelineno-10-20">20</a></span>
+<span class="normal"><a href="#__codelineno-10-21">21</a></span>
+<span class="normal"><a href="#__codelineno-10-22">22</a></span>
+<span class="normal"><a href="#__codelineno-10-23">23</a></span>
+<span class="normal"><a href="#__codelineno-10-24">24</a></span>
+<span class="normal"><a href="#__codelineno-10-25">25</a></span>
+<span class="normal"><a href="#__codelineno-10-26">26</a></span>
+<span class="normal"><a href="#__codelineno-10-27">27</a></span>
+<span class="normal"><a href="#__codelineno-10-28">28</a></span>
+<span class="normal"><a href="#__codelineno-10-29">29</a></span>
+<span class="normal"><a href="#__codelineno-10-30">30</a></span>
+<span class="normal"><a href="#__codelineno-10-31">31</a></span>
+<span class="normal"><a href="#__codelineno-10-32">32</a></span>
+<span class="normal"><a href="#__codelineno-10-33">33</a></span>
+<span class="normal"><a href="#__codelineno-10-34">34</a></span>
+<span class="normal"><a href="#__codelineno-10-35">35</a></span>
+<span class="normal"><a href="#__codelineno-10-36">36</a></span>
+<span class="normal"><a href="#__codelineno-10-37">37</a></span>
+<span class="normal"><a href="#__codelineno-10-38">38</a></span>
+<span class="normal"><a href="#__codelineno-10-39">39</a></span>
+<span class="normal"><a href="#__codelineno-10-40">40</a></span>
+<span class="normal"><a href="#__codelineno-10-41">41</a></span>
+<span class="normal"><a href="#__codelineno-10-42">42</a></span>
+<span class="normal"><a href="#__codelineno-10-43">43</a></span>
+<span class="normal"><a href="#__codelineno-10-44">44</a></span>
+<span class="normal"><a href="#__codelineno-10-45">45</a></span>
+<span class="normal"><a href="#__codelineno-10-46">46</a></span>
+<span class="normal"><a href="#__codelineno-10-47">47</a></span>
+<span class="normal"><a href="#__codelineno-10-48">48</a></span>
+<span class="normal"><a href="#__codelineno-10-49">49</a></span>
+<span class="normal"><a href="#__codelineno-10-50">50</a></span>
+<span class="normal"><a href="#__codelineno-10-51">51</a></span>
+<span class="normal"><a href="#__codelineno-10-52">52</a></span>
+<span class="normal"><a href="#__codelineno-10-53">53</a></span>
+<span class="normal"><a href="#__codelineno-10-54">54</a></span>
+<span class="normal"><a href="#__codelineno-10-55">55</a></span>
+<span class="normal"><a href="#__codelineno-10-56">56</a></span>
+<span class="normal"><a href="#__codelineno-10-57">57</a></span>
+<span class="normal"><a href="#__codelineno-10-58">58</a></span>
+<span class="normal"><a href="#__codelineno-10-59">59</a></span>
+<span class="normal"><a href="#__codelineno-10-60">60</a></span>
+<span class="normal"><a href="#__codelineno-10-61">61</a></span>
+<span class="normal"><a href="#__codelineno-10-62">62</a></span>
+<span class="normal"><a href="#__codelineno-10-63">63</a></span>
+<span class="normal"><a href="#__codelineno-10-64">64</a></span>
+<span class="normal"><a href="#__codelineno-10-65">65</a></span>
+<span class="normal"><a href="#__codelineno-10-66">66</a></span>
+<span class="normal"><a href="#__codelineno-10-67">67</a></span>
+<span class="normal"><a href="#__codelineno-10-68">68</a></span>
+<span class="normal"><a href="#__codelineno-10-69">69</a></span>
+<span class="normal"><a href="#__codelineno-10-70">70</a></span>
+<span class="normal"><a href="#__codelineno-10-71">71</a></span>
+<span class="normal"><a href="#__codelineno-10-72">72</a></span>
+<span class="normal"><a href="#__codelineno-10-73">73</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kn">import</span> <span class="nn">logging</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="kn">import</span> <span class="nn">socket</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="c1"># Setup logger</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7"></a>    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;[</span><span class="si">%(levelname)s</span><span class="s2"> </span><span class="si">%(asctime)s</span><span class="s2">] (</span><span class="si">%(name)s</span><span class="s2">): </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8"></a>    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9"></a>    <span class="n">datefmt</span><span class="o">=</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10"></a>
+<a id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12"></a><span class="n">http_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;HTTP&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13"></a><span class="n">ws_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;WS&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14"></a><span class="n">client_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;CLIENT&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16"></a>
+<a id="__codelineno-10-17" name="__codelineno-10-17"></a><span class="k">def</span> <span class="nf">get_reply</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18"></a>    <span class="k">if</span> <span class="s2">&quot;ping&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19"></a>        <span class="k">return</span> <span class="s1">&#39;Pong!&#39;</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Data </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s1"> received successfully.&#39;</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21"></a>
+<a id="__codelineno-10-22" name="__codelineno-10-22"></a>
+<a id="__codelineno-10-23" name="__codelineno-10-23"></a><span class="k">def</span> <span class="nf">str_from_header</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24"></a>    <span class="n">h</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25"></a>    <span class="k">return</span> <span class="s1">&#39;; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">h</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">h</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26"></a>
+<a id="__codelineno-10-27" name="__codelineno-10-27"></a>
+<a id="__codelineno-10-28" name="__codelineno-10-28"></a><span class="k">def</span> <span class="nf">get_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30"></a>        <span class="n">host</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">])</span>
+<a id="__codelineno-10-31" name="__codelineno-10-31"></a>
+<a id="__codelineno-10-32" name="__codelineno-10-32"></a>        <span class="n">soc</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+<a id="__codelineno-10-33" name="__codelineno-10-33"></a>        <span class="n">soc</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<a id="__codelineno-10-34" name="__codelineno-10-34"></a>        <span class="n">ws_port</span> <span class="o">=</span> <span class="n">soc</span><span class="o">.</span><span class="n">getsockname</span><span class="p">()</span>
+<a id="__codelineno-10-35" name="__codelineno-10-35"></a>
+<a id="__codelineno-10-36" name="__codelineno-10-36"></a>        <span class="n">soc_http</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+<a id="__codelineno-10-37" name="__codelineno-10-37"></a>        <span class="n">soc_http</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<a id="__codelineno-10-38" name="__codelineno-10-38"></a>        <span class="n">http_port</span> <span class="o">=</span> <span class="n">soc_http</span><span class="o">.</span><span class="n">getsockname</span><span class="p">()</span>
+<a id="__codelineno-10-39" name="__codelineno-10-39"></a>
+<a id="__codelineno-10-40" name="__codelineno-10-40"></a>        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="n">host</span><span class="p">,</span>
+<a id="__codelineno-10-41" name="__codelineno-10-41"></a>                <span class="s1">&#39;ws_port&#39;</span><span class="p">:</span> <span class="n">ws_port</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<a id="__codelineno-10-42" name="__codelineno-10-42"></a>                <span class="s1">&#39;http_port&#39;</span><span class="p">:</span> <span class="n">http_port</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<a id="__codelineno-10-43" name="__codelineno-10-43"></a>                <span class="s1">&#39;log_level&#39;</span><span class="p">:</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;log_level&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()}</span>
+<a id="__codelineno-10-44" name="__codelineno-10-44"></a>    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-10-45" name="__codelineno-10-45"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Provide value for </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+<a id="__codelineno-10-46" name="__codelineno-10-46"></a>
+<a id="__codelineno-10-47" name="__codelineno-10-47"></a>
+<a id="__codelineno-10-48" name="__codelineno-10-48"></a><span class="k">def</span> <span class="nf">format_results</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]):</span>
+<a id="__codelineno-10-49" name="__codelineno-10-49"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+<a id="__codelineno-10-50" name="__codelineno-10-50"></a>        <span class="k">return</span>
+<a id="__codelineno-10-51" name="__codelineno-10-51"></a>
+<a id="__codelineno-10-52" name="__codelineno-10-52"></a>    <span class="n">table</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-10-53" name="__codelineno-10-53"></a>    <span class="n">max_widths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+<a id="__codelineno-10-54" name="__codelineno-10-54"></a>                  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<a id="__codelineno-10-55" name="__codelineno-10-55"></a>    <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+<a id="__codelineno-10-56" name="__codelineno-10-56"></a>               <span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+<a id="__codelineno-10-57" name="__codelineno-10-57"></a>               <span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_widths</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<a id="__codelineno-10-58" name="__codelineno-10-58"></a>               <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+<a id="__codelineno-10-59" name="__codelineno-10-59"></a>    <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span> <span class="o">+</span> <span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span>
+<a id="__codelineno-10-60" name="__codelineno-10-60"></a>    <span class="n">separators</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span> <span class="o">+</span> \
+<a id="__codelineno-10-61" name="__codelineno-10-61"></a>                 <span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">max_widths</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span>
+<a id="__codelineno-10-62" name="__codelineno-10-62"></a>
+<a id="__codelineno-10-63" name="__codelineno-10-63"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+<a id="__codelineno-10-64" name="__codelineno-10-64"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">separators</span><span class="p">)</span>
+<a id="__codelineno-10-65" name="__codelineno-10-65"></a>    <span class="n">table</span> <span class="o">+=</span> <span class="p">[</span><span class="n">header</span><span class="p">,</span> <span class="n">separators</span><span class="p">]</span>
+<a id="__codelineno-10-66" name="__codelineno-10-66"></a>    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+<a id="__codelineno-10-67" name="__codelineno-10-67"></a>        <span class="n">row</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span> <span class="o">+</span> \
+<a id="__codelineno-10-68" name="__codelineno-10-68"></a>              <span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_widths</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<a id="__codelineno-10-69" name="__codelineno-10-69"></a>                         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span>
+<a id="__codelineno-10-70" name="__codelineno-10-70"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<a id="__codelineno-10-71" name="__codelineno-10-71"></a>        <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<a id="__codelineno-10-72" name="__codelineno-10-72"></a>
+<a id="__codelineno-10-73" name="__codelineno-10-73"></a>    <span class="k">return</span> <span class="n">table</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="execucao">Execução</h3>
+<p>Os argumentos fornecidos para o script são repassados para o módulo main do python, dessa forma, é possível executar os
+testes passando as entradas desejadas separadas por espaços. O comando <code>/bin/bash start 4 80 100 -1</code> testa os servidores
+com 4, 80 e 100 pings, em seguida finaliza os testes.</p>
+<p>Para obtenção de resultados mais significativos, o teste foi realizado com 1000, 5000, 10000 e 200000 requisições.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>bin/bash<span class="w"> </span>files/start<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="m">5000</span><span class="w"> </span><span class="m">10000</span><span class="w"> </span><span class="m">200000</span><span class="w"> </span>-1
+</code></pre></div>
+<h4 id="resultados-obtidos">Resultados Obtidos</h4>
+<p>Os resultados obtidos foram registrados na tabela 1, presente também no arquivo <code>files/results.md</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>Qt pings</th>
+<th>Start</th>
+<th>End</th>
+<th>Duration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WS</td>
+<td>1000</td>
+<td>2023-12-02T13:56:12.480478</td>
+<td>2023-12-02T13:56:12.786565</td>
+<td>0:00:00.306087</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>1000</td>
+<td>2023-12-02T13:56:12.787987</td>
+<td>2023-12-02T13:56:14.529089</td>
+<td>0:00:01.741102</td>
+</tr>
+<tr>
+<td>WS</td>
+<td>5000</td>
+<td>2023-12-02T13:56:14.529554</td>
+<td>2023-12-02T13:56:15.701015</td>
+<td>0:00:01.171461</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>5000</td>
+<td>2023-12-02T13:56:15.701424</td>
+<td>2023-12-02T13:56:24.817563</td>
+<td>0:00:09.116139</td>
+</tr>
+<tr>
+<td>WS</td>
+<td>10000</td>
+<td>2023-12-02T13:56:24.818105</td>
+<td>2023-12-02T13:56:27.183849</td>
+<td>0:00:02.365744</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>10000</td>
+<td>2023-12-02T13:56:27.184353</td>
+<td>2023-12-02T13:56:43.496875</td>
+<td>0:00:16.312522</td>
+</tr>
+<tr>
+<td>WS</td>
+<td>200000</td>
+<td>2023-12-02T13:56:43.497272</td>
+<td>2023-12-02T13:57:41.734733</td>
+<td>0:00:58.237461</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>200000</td>
+<td>2023-12-02T13:57:41.735176</td>
+<td>2023-12-02T14:03:43.133729</td>
+<td>0:06:01.398553</td>
+</tr>
+</tbody>
+</table>
+<p><tab> Resultados obtidos. </tab></p>
+<h2 id="consideracoes-finais">Considerações Finais</h2>
+<p>A partir dos resultados obtidos (Tabela 1), foram realizados os cálculos de diferença de desempenho conforme a
+quantidade de requisições e os resultados obtidos (Tabela 2).</p>
+<table>
+  <tr>
+    <th>Qtde de Pings</th>
+    <th>Duração WS (s)</th>
+    <th>Duração HTTP (s)</th>
+    <th>Diferença (HTTP - WS) (s)</th>
+  </tr>
+  <tr>
+    <td>1000</td>
+    <td>0.306087</td>
+    <td>1.741102</td>
+    <td>1.435015</td>
+  </tr>
+  <tr>
+    <td>5000</td>
+    <td>1.171461</td>
+    <td>9.116139</td>
+    <td>7.944678</td>
+  </tr>
+  <tr>
+    <td>10000</td>
+    <td>2.365744</td>
+    <td>16.312522</td>
+    <td>13.946778</td>
+  </tr>
+  <tr>
+    <td>200000</td>
+    <td>58.237461</td>
+    <td>361.398553</td>
+    <td>303.161092</td>
+  </tr>
+</table>
+
+<p><tab> Resultados formatados. </tab></p>
+<p>Os resultados da tabela 2 foram representados graficamente (Figura 6), evidenciando a disparidade no desempenho dos
+protocolos para muitas requisições sequenciais.</p>
+<p><img alt="" src="../assets/3228.png" />
+<fig>Gráfico comparativo entre a duração das requisições. (Fonte: autoria própria)</fig></p>
+<p>Os resultados obtidos reforçam a eficiência do protocolo websockets no contexto de comunicação em tempo real. O padrão
+linear de crescimento da diferença de desempenho também indica que quanto menor o número de requisições, menor a
+diferença de desempenho, sendo assim o protocolo HTTP mais adequado.</p>
+<h2 id="referencias">Referências</h2>
+<p>[1] MOL, Marcos. Getting Started with Unix Domain Sockets. Medium, [S.l.], [s.d.]. Disponível em: <a href="https://medium.com/swlh/getting-started-with-unix-domain-sockets-4472c0db4eb1">https://medium.com/swlh/getting-started-with-unix-domain-sockets-4472c0db4eb1</a>. Acesso em: 02 dez. 2023. 
+[2] IETF. RFC 6455 - The WebSocket Protocol. [S.l.], [s.d.]. Disponível em: <a href="https://datatracker.ietf.org/doc/html/rfc6455">https://datatracker.ietf.org/doc/html/rfc6455</a>. Acesso em: 02 dez. 2023. 
+[3] WALLARM. WebSocket vs HTTP: How Are These 2 Different?. [S.l.], [s.d.]. Disponível em: <a href="https://www.wallarm.com/what/websocket-vs-http-how-are-these-2-different">https://www.wallarm.com/what/websocket-vs-http-how-are-these-2-different</a>. Acesso em: 02 dez. 2023. 
+[4] TANENBAUM, Andrew S.; WETHERALL, David J. Redes de Computadores. 5. ed. [Local de Publicação]: Editora, Ano. 
+[5] MOZILLA. WebSockets API. [S.l.], [s.d.]. Disponível em: <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API">https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API</a>. Acesso em: 02 dez. 2023. 
+[6] WHATWG. The WebSocket Interface. [S.l.], [s.d.]. Disponível em: <a href="https://websockets.spec.whatwg.org/#the-websocket-interface">https://websockets.spec.whatwg.org/#the-websocket-interface</a>. Acesso em: 02 dez. 2023. </p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2023 Nicolas Souza
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["toc.follow", "navigation.expand"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+        <script src="../../assets/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

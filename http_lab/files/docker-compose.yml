@@ -1,0 +1,32 @@
+version: "3"
+services:
+  # Servidor, responsável por servir conteúdo estático.
+  nginx: # O nome do serviço serve como DNS para acessar o serviço, com http://nginx ou https://nginx
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - net-http-lab
+
+  debian:
+    container_name: debian
+    build:
+      context: .
+      dockerfile: debian.Dockerfile
+    entrypoint: /bin/bash /tmp/get_http
+    depends_on:
+      - nginx
+    volumes:
+      - ./get_http:/tmp/get_http      
+    networks:
+      - net-http-lab
+
+networks:
+  net-http-lab:
+    name: net-redes
